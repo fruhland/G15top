@@ -1,0 +1,18 @@
+on: [push]
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Install dependencies
+        run: sudo apt install -y libg15render-dev libg15daemon-client-dev
+      - name: Build
+        uses: ashutoshvarma/action-cmake-build@master
+        with:
+          build-dir: ${{ runner.workspace }}/build
+          cc: gcc
+          cxx: g++
+          build-type: Release
+          run-test: false
+          install-build: false
