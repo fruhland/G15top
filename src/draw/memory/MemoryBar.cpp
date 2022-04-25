@@ -17,13 +17,13 @@
 
 namespace G15::Draw {
 
-MemoryBar::MemoryBar(Screen &screen, uint32_t x1, uint32_t y1, uint32_t x2, uint32_t y2) :
-        MemoryDrawable(screen),
+MemoryBar::MemoryBar(Screen &screen, Util::Statistics &statistics, uint32_t x1, uint32_t y1, uint32_t x2, uint32_t y2) :
+        Drawable(screen),
+        statistics(statistics),
         x1(x1), y1(y1), x2(x2), y2(y2) {}
 
 void MemoryBar::draw() {
-    refresh();
-    getScreen().drawProgressBar(x1, y1, x2, y2, getUsedMemory(), getTotalMemory());
+    getScreen().drawProgressBar(x1, y1, x2, y2, statistics.getUsedMemory(), statistics.getTotalMemory());
 }
 
 }

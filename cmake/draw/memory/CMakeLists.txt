@@ -16,7 +16,6 @@ cmake_minimum_required(VERSION 3.10)
 # Set source files
 set(SOURCE_FILES
         ${G15TOP_SRC_DIR}/draw/memory/MemoryBar.cpp
-        ${G15TOP_SRC_DIR}/draw/memory/MemoryDrawable.cpp
         ${G15TOP_SRC_DIR}/draw/memory/MemoryPercentage.cpp)
 
 target_sources(draw PUBLIC ${SOURCE_FILES})

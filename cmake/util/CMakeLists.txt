@@ -18,9 +18,16 @@ message(STATUS "Project " ${PROJECT_NAME})
 
 include_directories(${HHUOS_SRC_DIR})
 
+FIND_PACKAGE(PkgConfig REQUIRED)
+PKG_CHECK_MODULES(LIBGTOP REQUIRED libgtop-2.0)
+
 # Set source files
 set(SOURCE_FILES
         ${G15TOP_SRC_DIR}/util/BuildConfig.cpp
-        ${G15TOP_SRC_DIR}/util/Exception.cpp)
+        ${G15TOP_SRC_DIR}/util/Exception.cpp
+        ${G15TOP_SRC_DIR}/util/Statistics.cpp)
 
 add_library(${PROJECT_NAME} STATIC ${SOURCE_FILES})
+
+target_include_directories(${PROJECT_NAME} PUBLIC ${LIBGTOP_INCLUDE_DIRS})
+target_link_libraries(${PROJECT_NAME} gtop-2.0)
