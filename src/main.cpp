@@ -20,6 +20,7 @@
 #include "draw/Screen.h"
 #include "draw/memory/MemoryBar.h"
 #include "draw/memory/MemoryPercentage.h"
+#include "draw/clock/Clock.h"
 
 bool isRunning = true;
 
@@ -35,7 +36,8 @@ int32_t main(int32_t argc, char *argv[]) {
 
     G15::Draw::Screen screen(argv[1]);
     G15::Draw::MemoryBar memoryBar(screen, 118, 13, 156, 15);
-    G15::Draw::MemoryPercentage memoryPercentage(screen, 98, 11, G15::Draw::Screen::FontSize::MEDIUM);
+    G15::Draw::MemoryPercentage memoryPercentage(screen, 98, 11, G15::Draw::Screen::MEDIUM);
+    G15::Draw::Clock clock(screen , 118, 2, G15::Draw::Screen::MEDIUM, "%X");
 
     screen.clear();
     screen.drawBanner();
@@ -49,6 +51,7 @@ int32_t main(int32_t argc, char *argv[]) {
     while (isRunning) {
         memoryBar.draw();
         memoryPercentage.draw();
+        clock.draw();
         screen.flush();
         sleep(1);
     }
