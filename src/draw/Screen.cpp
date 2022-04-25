@@ -13,30 +13,22 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>
  */
 
-#include <stdexcept>
 #include <unistd.h>
 #include <g15daemon_client.h>
 #include <fstream>
+#include "../util/BuildConfig.h"
 #include "../util/Exception.h"
 #include "Screen.h"
 
 namespace G15::Draw {
 
-Screen::Screen(const char *theme) {
-    auto path = std::string(theme) + "/theme.wbmp";
-    if (!checkFile(path.c_str())) {
-        throw Util::Exception("Theme not found '" + path + "'!");
-    }
-
+Screen::Screen(const char *theme) : theme(std::string(theme) + "/theme.wbmp") {
     screen = new_g15_screen(G15_G15RBUF);
     if (screen < 0) {
         throw Util::Exception("Unable to initialize G15 screen!");
     }
 
     g15r_initCanvas(&canvas);
-    clear();
-    drawSplash((std::string(theme) + "/theme.wbmp").c_str());
-    flush();
 }
 
 Screen::~Screen() {
@@ -47,8 +39,20 @@ void Screen::clear() {
     g15r_clearScreen(&canvas, G15_COLOR_WHITE);
 }
 
-void Screen::drawSplash(const char *path) {
-    g15r_loadWbmpSplash(&canvas, (char *) path);
+void Screen::drawBanner() {
+    drawString(4, 4, "  ____________ __           ", G15::Draw::Screen::SMALL);
+    drawString(4, 10, (" / ___<  / __// /____  ___  " + std::string(G15::Util::BuildConfig::getVersion())).c_str(), G15::Draw::Screen::SMALL);
+    drawString(4, 16, (R"(/ (_ // /__ \/ __/ _ \/ _ \ )" + std::string(G15::Util::BuildConfig::getBuildDate()).substr(0, 10)).c_str(), G15::Draw::Screen::SMALL);
+    drawString(4, 22, (R"(\___//_/____/\__/\___/ .__/ )" + std::string(G15::Util::BuildConfig::getGitBranch())).c_str(), G15::Draw::Screen::SMALL);
+    drawString(4, 28, ("                    /_/     " + std::string(G15::Util::BuildConfig::getGitRevision())).c_str(), G15::Draw::Screen::SMALL);
+}
+
+void Screen::initializeTheme() {
+    if (!checkFile(theme.c_str())) {
+        throw Util::Exception("Theme not found '" + theme + "'!");
+    }
+
+    drawSplash(theme.c_str());
 }
 
 void Screen::drawProgressBar(uint32_t x1, uint32_t y1, uint32_t x2, uint32_t y2, uint64_t value, uint64_t maxValue) {
@@ -57,12 +61,20 @@ void Screen::drawProgressBar(uint32_t x1, uint32_t y1, uint32_t x2, uint32_t y2,
     g15r_pixelReverseFill(&canvas, x1, y1, static_cast<int32_t>(x1 + length), y2, G15_PIXEL_FILL, G15_COLOR_BLACK);
 }
 
-void Screen::drawNumber(uint32_t x, uint32_t y, uint32_t value, Screen::FontSize size) {
-    g15r_renderString(&canvas, (unsigned char *) std::to_string(value).c_str(), 0, G15_TEXT_MED, x, y);
+void Screen::drawString(uint32_t x, uint32_t y, const char *string, FontSize size) {
+    g15r_renderString(&canvas, (unsigned char*) string, 0, size, x, y);
+}
+
+void Screen::drawNumber(uint32_t x, uint32_t y, uint32_t value, FontSize size) {
+    drawString(x, y, std::to_string(value).c_str(), size);
 }
 
 void Screen::flush() {
     g15_send(screen, reinterpret_cast<char *>(canvas.buffer), G15_BUFFER_LEN);
+}
+
+void Screen::drawSplash(const char *path) {
+    g15r_loadWbmpSplash(&canvas, (char *) path);
 }
 
 bool Screen::checkFile(const char *path) {

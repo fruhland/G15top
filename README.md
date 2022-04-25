@@ -1,4 +1,4 @@
-# g15top
+# G15top
 Resource monitor for the Logitech G15 keyboard
 
 [![.github/workflows/build.yml](https://github.com/fruhland/g15top/actions/workflows/build.yml/badge.svg)](https://github.com/fruhland/g15top/actions/workflows/build.yml)

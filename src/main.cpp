@@ -37,6 +37,14 @@ int32_t main(int32_t argc, char *argv[]) {
     G15::Draw::MemoryBar memoryBar(screen, 118, 13, 156, 15);
     G15::Draw::MemoryPercentage memoryPercentage(screen, 98, 11, G15::Draw::Screen::FontSize::MEDIUM);
 
+    screen.clear();
+    screen.drawBanner();
+    screen.flush();
+    sleep(5);
+
+    screen.initializeTheme();
+    screen.flush();
+
     signal(SIGINT, signalHandler);
     while (isRunning) {
         memoryBar.draw();

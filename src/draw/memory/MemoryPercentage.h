@@ -48,7 +48,7 @@ public:
 private:
 
     uint32_t x, y;
-    Screen::FontSize fontSize;
+    Screen::FontSize size;
 };
 
 }

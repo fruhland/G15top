@@ -17,6 +17,7 @@
 #define G15TOP_SCREEN_H
 
 #include <cstdint>
+#include <string>
 #include <libg15render.h>
 
 namespace G15::Draw {
@@ -50,7 +51,15 @@ public:
         LARGE = G15_TEXT_LARGE
     };
 
+    void clear();
+
+    void drawBanner();
+
+    void initializeTheme();
+
     void drawProgressBar(uint32_t x1, uint32_t y1, uint32_t x2, uint32_t y2, uint64_t value, uint64_t maxValue);
+
+    void drawString(uint32_t x, uint32_t y, const char *string, FontSize size);
 
     void drawNumber(uint32_t x, uint32_t y, uint32_t value, FontSize size);
 
@@ -58,14 +67,13 @@ public:
 
 private:
 
-    void clear();
-
     void drawSplash(const char *path);
 
     [[nodiscard]] static bool checkFile(const char *path);
 
     int32_t screen;
     g15canvas canvas{};
+    std::string theme;
 };
 
 }
