@@ -11,21 +11,15 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>
 
-on: [push]
-jobs:
-  build:
-    runs-on: ubuntu-18.04
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v2
-      - name: Install dependencies
-        run: sudo apt install -y libg15render-dev libg15daemon-client-dev libgtop2-dev
-      - name: Build
-        uses: ashutoshvarma/action-cmake-build@master
-        with:
-          build-dir: ${{ runner.workspace }}/build
-          cc: gcc
-          cxx: g++
-          build-type: Release
-          run-test: false
-          install-build: false
+cmake_minimum_required(VERSION 3.10)
+
+project(util)
+message(STATUS "Project " ${PROJECT_NAME})
+
+include_directories(${HHUOS_SRC_DIR})
+
+# Set source files
+set(SOURCE_FILES
+        ${G15TOP_SRC_DIR}/util/Exception.cpp)
+
+add_library(${PROJECT_NAME} STATIC ${SOURCE_FILES})

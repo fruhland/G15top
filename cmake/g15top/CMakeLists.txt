@@ -11,21 +11,21 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>
 
-on: [push]
-jobs:
-  build:
-    runs-on: ubuntu-18.04
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v2
-      - name: Install dependencies
-        run: sudo apt install -y libg15render-dev libg15daemon-client-dev libgtop2-dev
-      - name: Build
-        uses: ashutoshvarma/action-cmake-build@master
-        with:
-          build-dir: ${{ runner.workspace }}/build
-          cc: gcc
-          cxx: g++
-          build-type: Release
-          run-test: false
-          install-build: false
+cmake_minimum_required(VERSION 3.10)
+
+project(g15top)
+message(STATUS "Project " ${PROJECT_NAME})
+
+include_directories(${HHUOS_SRC_DIR})
+
+FIND_PACKAGE(PkgConfig REQUIRED)
+PKG_CHECK_MODULES(LIBGTOP REQUIRED libgtop-2.0)
+
+# Set source files
+set(SOURCE_FILES
+        ${G15TOP_SRC_DIR}/main.cpp)
+
+add_executable(${PROJECT_NAME} ${SOURCE_FILES})
+
+target_include_directories(${PROJECT_NAME} PUBLIC ${LIBGTOP_INCLUDE_DIRS})
+target_link_libraries(${PROJECT_NAME} draw util g15render g15daemon_client gtop-2.0)
