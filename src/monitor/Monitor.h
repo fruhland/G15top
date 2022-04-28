@@ -19,6 +19,7 @@
 #include <cstdint>
 #include <glibtop/mem.h>
 #include "Memory.h"
+#include "Swap.h"
 
 namespace G15::Monitor {
 
@@ -49,9 +50,12 @@ public:
 
     [[nodiscard]] Memory& getMemory();
 
+    [[nodiscard]] Swap& getSwap();
+
 private:
 
     Memory memory;
+    Swap swap;
 };
 
 }

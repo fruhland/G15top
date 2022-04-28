@@ -13,21 +13,20 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>
  */
 
-#include "Monitor.h"
+#include "Swap.h"
 
 namespace G15::Monitor {
 
-void Monitor::refresh() {
-    memory.refresh();
-    swap.refresh();
+void Swap::refresh() {
+    glibtop_get_swap(&swapInfo);
 }
 
-Memory &Monitor::getMemory() {
-    return memory;
+uint64_t Swap::getTotal() const {
+    return swapInfo.total;
 }
 
-Swap &Monitor::getSwap() {
-    return swap;
+uint64_t Swap::getUsed() const {
+    return swapInfo.used;
 }
 
 }

@@ -13,21 +13,49 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>
  */
 
-#include "Monitor.h"
+#ifndef G15TOP_SWAP_H
+#define G15TOP_SWAP_H
+
+#include <cstdint>
+#include <glibtop/swap.h>
+#include "MemoryMonitorable.h"
 
 namespace G15::Monitor {
 
-void Monitor::refresh() {
-    memory.refresh();
-    swap.refresh();
+class Swap : public MemoryMonitorable {
+
+public:
+    /**
+     * Constructor.
+     */
+    explicit Swap() = default;
+
+    /**
+     * Copy constructor.
+     */
+    Swap(const Swap &other) = delete;
+
+    /**
+     * Assignment operator.
+     */
+    Swap &operator=(const Swap &other) = delete;
+
+    /**
+     * Destructor.
+     */
+    ~Swap() = default;
+
+    void refresh() override;
+
+    [[nodiscard]] uint64_t getTotal() const override;
+
+    [[nodiscard]] uint64_t getUsed() const override;
+
+private:
+
+    glibtop_swap swapInfo{};
+};
+
 }
 
-Memory &Monitor::getMemory() {
-    return memory;
-}
-
-Swap &Monitor::getSwap() {
-    return swap;
-}
-
-}
+#endif

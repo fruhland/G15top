@@ -21,6 +21,7 @@
 #include "draw/memory/MemoryBar.h"
 #include "draw/memory/MemoryPercentage.h"
 #include "draw/clock/Clock.h"
+#include "monitor/Monitor.h"
 
 bool isRunning = true;
 
@@ -37,8 +38,9 @@ int32_t main(int32_t argc, char *argv[]) {
     G15::Monitor::Monitor monitor;
     G15::Draw::Screen screen(argv[1]);
 
-    G15::Draw::MemoryBar memoryBar(screen, monitor, 118, 13, 3, 39, G15::Draw::Screen::HORIZONTAL);
-    G15::Draw::MemoryPercentage memoryPercentage(screen, monitor, 98, 11, G15::Draw::Screen::MEDIUM);
+    G15::Draw::MemoryBar memoryBar(screen, monitor.getMemory(), 118, 13, 2, 39, G15::Draw::Screen::HORIZONTAL);
+    G15::Draw::MemoryBar swapBar(screen, monitor.getSwap(), 118, 14, 2, 39, G15::Draw::Screen::HORIZONTAL);
+    G15::Draw::MemoryPercentage memoryPercentage(screen, monitor.getMemory(), 98, 11, G15::Draw::Screen::MEDIUM);
     G15::Draw::Clock clock(screen , 118, 2, G15::Draw::Screen::MEDIUM, "%X");
 
     screen.clear();
@@ -54,6 +56,7 @@ int32_t main(int32_t argc, char *argv[]) {
         monitor.refresh();
 
         memoryBar.draw();
+        swapBar.draw();
         memoryPercentage.draw();
         clock.draw();
 

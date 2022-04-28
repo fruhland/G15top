@@ -18,11 +18,11 @@
 
 #include <cstdint>
 #include <glibtop/mem.h>
-#include "Monitorable.h"
+#include "MemoryMonitorable.h"
 
 namespace G15::Monitor {
 
-class Memory : public Monitorable {
+class Memory : public MemoryMonitorable {
 
 public:
     /**
@@ -47,9 +47,9 @@ public:
 
     void refresh() override;
 
-    [[nodiscard]] uint64_t getTotalMemory() const;
+    [[nodiscard]] uint64_t getTotal() const override;
 
-    [[nodiscard]] uint64_t getUsedMemory() const;
+    [[nodiscard]] uint64_t getUsed() const override;
 
 private:
 

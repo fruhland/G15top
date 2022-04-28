@@ -58,6 +58,10 @@ void Screen::initializeTheme() {
 void Screen::drawHorizontalProgressBar(uint32_t x1, uint32_t y1, uint32_t x2, uint32_t y2, uint64_t value, uint64_t maxValue) {
     auto percentage = static_cast<double>(value) / static_cast<double>(maxValue);
     auto length = (x2 - x1) * percentage;
+    if (length < 1) {
+        return;
+    }
+
     g15r_pixelReverseFill(&canvas, static_cast<int32_t>(x1), static_cast<int32_t>(y1),
                           static_cast<int32_t>(x1 + length), static_cast<int32_t>(y2), G15_PIXEL_FILL, G15_COLOR_BLACK);
 }
