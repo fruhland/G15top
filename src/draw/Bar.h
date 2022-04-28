@@ -35,6 +35,11 @@ public:
     Bar(const Bar &other) = delete;
 
     /**
+     * Move constructor.
+     */
+    Bar(const Bar &&other) noexcept;
+
+    /**
      * Assignment operator.
      */
     Bar &operator=(const Bar &other) = delete;

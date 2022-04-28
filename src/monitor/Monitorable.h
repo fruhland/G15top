@@ -24,7 +24,7 @@ public:
     /**
      * Constructor.
      */
-    explicit Monitorable() = default;
+    Monitorable() = default;
 
     /**
      * Copy constructor.

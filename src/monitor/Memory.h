@@ -28,7 +28,7 @@ public:
     /**
      * Constructor.
      */
-    explicit Memory() = default;
+    Memory() = default;
 
     /**
      * Copy constructor.

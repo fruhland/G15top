@@ -31,4 +31,10 @@ void Bar::draw() {
     }
 }
 
+Bar::Bar(const Bar &&other) noexcept :
+        Drawable(other.screen, other.x, other.y),
+        width(other.width), length(other.length),
+        orientation(other.orientation),
+        monitorable(other.monitorable) {}
+
 }

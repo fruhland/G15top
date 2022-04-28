@@ -13,17 +13,32 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>
  */
 
+#include <glibtop/sysinfo.h>
 #include "Monitor.h"
 
 namespace G15::Monitor {
 
-Monitor::Monitor() :
-        clock("%X") {}
+Monitor::Monitor() : clock("%X") {
+    glibtop_init();
+
+    auto &systemInfo = *glibtop_get_sysinfo();
+    for (uint64_t i = 0; i < systemInfo.ncpu; i++) {
+        cpuCores.emplace_back(i);
+    }
+}
+
+Monitor::~Monitor() {
+    glibtop_close();
+}
 
 void Monitor::refresh() {
     clock.refresh();
     memory.refresh();
     swap.refresh();
+    cpu.refresh();
+    for (auto &core : cpuCores) {
+        core.refresh();
+    }
 }
 
 Clock& Monitor::getClock() const {
@@ -36,6 +51,18 @@ Memory& Monitor::getMemory() const {
 
 Swap& Monitor::getSwap() const {
     return const_cast<Swap&>(swap);
+}
+
+CpuUsage& Monitor::getCpu() const {
+    return const_cast<CpuUsage&>(cpu);
+}
+
+CpuUsage &Monitor::getCpuCore(uint64_t core) const {
+    return const_cast<CpuUsage&>(cpuCores[core]);
+}
+
+uint64_t Monitor::getCpuCoreCount() const {
+    return cpuCores.size();
 }
 
 }

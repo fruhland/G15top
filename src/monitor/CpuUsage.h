@@ -13,41 +13,58 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>
  */
 
-#ifndef G15TOP_TEXTMONITORABLE_H
-#define G15TOP_TEXTMONITORABLE_H
+#ifndef G15TOP_CPUUSAGE_H
+#define G15TOP_CPUUSAGE_H
 
-#include <cstdint>
-#include <string>
-#include "Monitorable.h"
+#include <glibtop/cpu.h>
+#include "ValueMonitorable.h"
 
 namespace G15::Monitor {
 
-class TextMonitorable : public Monitorable {
+class CpuUsage : public ValueMonitorable {
 
 public:
     /**
-     * Constructor.
+     * Constructor for monitoring total cpu usage.
      */
-    TextMonitorable() = default;
+    CpuUsage();
+
+    /**
+     * Constructor for monitoring a specific cpu core.
+     */
+    explicit CpuUsage(uint64_t core);
 
     /**
      * Copy constructor.
      */
-    TextMonitorable(const TextMonitorable &other) = delete;
+    CpuUsage(const CpuUsage &other) = delete;
+
+    /**
+     * Move constructor.
+     */
+    CpuUsage(CpuUsage &&other) noexcept;
 
     /**
      * Assignment operator.
      */
-    TextMonitorable &operator=(const TextMonitorable &other) = delete;
+    CpuUsage &operator=(const CpuUsage &other) = delete;
 
     /**
      * Destructor.
      */
-    ~TextMonitorable() = default;
+    ~CpuUsage() = default;
 
-    void refresh() override = 0;
+    void refresh() override;
 
-    [[nodiscard]] virtual std::string getText() const = 0;
+    [[nodiscard]] uint64_t getTotal() const override;
+
+    [[nodiscard]] uint64_t getValue() const override;
+
+private:
+
+    uint64_t core;
+    glibtop_cpu lastCpuInfo{};
+    glibtop_cpu currentCpuInfo{};
 };
 
 }

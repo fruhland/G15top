@@ -18,9 +18,11 @@
 
 #include <cstdint>
 #include <glibtop/mem.h>
+#include <vector>
 #include "Memory.h"
 #include "Swap.h"
 #include "Clock.h"
+#include "CpuUsage.h"
 
 namespace G15::Monitor {
 
@@ -45,7 +47,7 @@ public:
     /**
      * Destructor.
      */
-    ~Monitor() = default;
+    ~Monitor();
 
     void refresh();
 
@@ -55,11 +57,19 @@ public:
 
     [[nodiscard]] Swap& getSwap() const;
 
+    [[nodiscard]] CpuUsage& getCpu() const;
+
+    [[nodiscard]] CpuUsage& getCpuCore(uint64_t core) const;
+
+    [[nodiscard]] uint64_t getCpuCoreCount() const;
+
 private:
 
     Clock clock;
     Memory memory;
     Swap swap;
+    CpuUsage cpu;
+    std::vector<CpuUsage> cpuCores;
 };
 
 }

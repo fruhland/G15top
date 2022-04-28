@@ -28,7 +28,7 @@ public:
     /**
      * Constructor.
      */
-    explicit Swap() = default;
+    Swap() = default;
 
     /**
      * Copy constructor.
