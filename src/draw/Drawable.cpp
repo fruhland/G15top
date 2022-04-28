@@ -13,11 +13,12 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>
  */
 
+#include "Screen.h"
 #include "Drawable.h"
 
 namespace G15::Draw {
 
-Drawable::Drawable(Screen &screen, uint32_t x, uint32_t y) :
+Drawable::Drawable(Screen &screen, uint8_t x, uint8_t y) :
         screen(screen),
         x(x), y(y) {}
 

@@ -17,6 +17,7 @@
 #define G15TOP_TEXT_H
 
 #include "../monitor/TextMonitorable.h"
+#include "Screen.h"
 #include "Drawable.h"
 
 namespace G15::Draw {
@@ -27,7 +28,7 @@ public:
     /**
      * Constructor.
      */
-    Text(Screen &screen, Monitor::TextMonitorable &monitorable, uint32_t x, uint32_t y, Screen::FontSize size);
+    Text(Screen &screen, Monitor::TextMonitorable &monitorable, uint8_t x, uint8_t y, Screen::FontSize size);
 
     /**
      * Copy constructor.
@@ -42,7 +43,7 @@ public:
     /**
      * Destructor.
      */
-    ~Text() = default;
+    ~Text() override = default;
 
     void draw() override;
 

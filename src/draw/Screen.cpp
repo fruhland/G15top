@@ -22,7 +22,7 @@
 
 namespace G15::Draw {
 
-Screen::Screen(const char *theme) : theme(std::string(theme) + "/theme.wbmp") {
+Screen::Screen(const char *theme) : Drawable(*this, 0, 0), theme(std::string(theme) + "/theme.wbmp") {
     screen = new_g15_screen(G15_G15RBUF);
     if (screen < 0) {
         throw Util::Exception("Unable to initialize G15 screen!");
@@ -45,9 +45,11 @@ void Screen::drawBanner() {
     drawString(4, 16, (R"(/ (_ // /__ \/ __/ _ \/ _ \ )" + std::string(G15::Util::BuildConfig::getBuildDate()).substr(0, 10)).c_str(), G15::Draw::Screen::SMALL);
     drawString(4, 22, (R"(\___//_/____/\__/\___/ .__/ )" + std::string(G15::Util::BuildConfig::getGitBranch())).c_str(), G15::Draw::Screen::SMALL);
     drawString(4, 28, ("                    /_/     " + std::string(G15::Util::BuildConfig::getGitRevision())).c_str(), G15::Draw::Screen::SMALL);
+
+    g15_send(screen, reinterpret_cast<char *>(canvas.buffer), G15_BUFFER_LEN);
 }
 
-void Screen::initializeTheme() {
+void Screen::drawTheme() {
     if (!checkFile(theme.c_str())) {
         throw Util::Exception("Theme not found '" + theme + "'!");
     }
@@ -79,7 +81,13 @@ void Screen::drawString(uint32_t x, uint32_t y, const char *string, FontSize siz
     g15r_renderString(&canvas, (unsigned char*) string, 0, size, x, y);
 }
 
-void Screen::flush() {
+void Screen::draw() {
+    drawTheme();
+
+    for (auto &drawable : drawables) {
+        drawable->draw();
+    }
+
     g15_send(screen, reinterpret_cast<char *>(canvas.buffer), G15_BUFFER_LEN);
 }
 
@@ -90,6 +98,10 @@ void Screen::drawSplash(const char *path) {
 bool Screen::checkFile(const char *path) {
     std::ifstream file(path);
     return file.is_open();
+}
+
+void Screen::registerDrawable(std::unique_ptr<Drawable> drawable) {
+    drawables.push_back(std::move(drawable));
 }
 
 }

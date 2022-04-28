@@ -16,9 +16,9 @@
 #ifndef G15TOP_DRAWABLE_H
 #define G15TOP_DRAWABLE_H
 
-#include "Screen.h"
-
 namespace G15::Draw {
+
+class Screen;
 
 class Drawable {
 
@@ -26,7 +26,7 @@ public:
     /**
      * Constructor.
      */
-    Drawable(Screen &screen, uint32_t x, uint32_t y);
+    Drawable(Screen &screen, uint8_t x, uint8_t y);
 
     /**
      * Copy constructor.
@@ -41,14 +41,14 @@ public:
     /**
      * Destructor.
      */
-    ~Drawable() = default;
+    virtual ~Drawable() = default;
 
     virtual void draw() = 0;
 
 protected:
 
     Screen &screen;
-    uint32_t x, y;
+    uint8_t x, y;
 };
 
 }

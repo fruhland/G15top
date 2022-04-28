@@ -18,17 +18,20 @@
 
 #include <cstdint>
 #include <string>
+#include <vector>
+#include <memory>
 #include <libg15render.h>
+#include "Drawable.h"
 
 namespace G15::Draw {
 
-class Screen {
+class Screen : public Drawable {
 
 public:
     /**
      * Constructor.
      */
-    Screen(const char *theme);
+    explicit Screen(const char *theme);
 
     /**
      * Copy constructor.
@@ -43,7 +46,7 @@ public:
     /**
      * Destructor.
      */
-    ~Screen();
+    ~Screen() override;
 
     enum FontSize {
         SMALL = G15_TEXT_SMALL,
@@ -56,11 +59,13 @@ public:
         VERTICAL
     };
 
+    void registerDrawable(std::unique_ptr<Drawable> drawable);
+
     void clear();
 
     void drawBanner();
 
-    void initializeTheme();
+    void drawTheme();
 
     void drawHorizontalProgressBar(uint32_t x1, uint32_t y1, uint32_t x2, uint32_t y2, double percentage);
 
@@ -68,7 +73,7 @@ public:
 
     void drawString(uint32_t x, uint32_t y, const char *string, FontSize size);
 
-    void flush();
+    void draw() override;
 
 private:
 
@@ -79,6 +84,7 @@ private:
     int32_t screen;
     g15canvas canvas{};
     std::string theme;
+    std::vector<std::unique_ptr<Drawable>> drawables;
 };
 
 }

@@ -17,6 +17,7 @@
 #define G15TOP_BAR_H
 
 #include "../monitor/ValueMonitorable.h"
+#include "Screen.h"
 #include "Drawable.h"
 
 namespace G15::Draw {
@@ -27,7 +28,7 @@ public:
     /**
      * Constructor.
      */
-    Bar(Screen &screen, Monitor::ValueMonitorable &monitorable, uint32_t x, uint32_t y, uint32_t width, uint32_t length, Screen::Orientation orientation);
+    Bar(Screen &screen, Monitor::ValueMonitorable &monitorable, uint8_t x, uint8_t y, uint8_t width, uint8_t length, Screen::Orientation orientation);
 
     /**
      * Copy constructor.
@@ -47,13 +48,13 @@ public:
     /**
      * Destructor.
      */
-    ~Bar() = default;
+    ~Bar() override = default;
 
     void draw() override;
 
 protected:
 
-    uint32_t width, length;
+    uint8_t width, length;
     Screen::Orientation orientation;
     Monitor::ValueMonitorable &monitorable;
 };

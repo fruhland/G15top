@@ -37,45 +37,30 @@ int32_t main(int32_t argc, char *argv[]) {
     G15::Monitor::Monitor monitor;
     G15::Draw::Screen screen(argv[1]);
 
-    std::vector<G15::Draw::Bar> cpuBars;
-    cpuBars.emplace_back(screen, monitor.getCpuCore(0), 3, 12, 2, 48, G15::Draw::Screen::HORIZONTAL);
-    cpuBars.emplace_back(screen, monitor.getCpuCore(1), 3, 13, 2, 48, G15::Draw::Screen::HORIZONTAL);
-    cpuBars.emplace_back(screen, monitor.getCpuCore(2), 3, 20, 2, 48, G15::Draw::Screen::HORIZONTAL);
-    cpuBars.emplace_back(screen, monitor.getCpuCore(3), 3, 21, 2, 48, G15::Draw::Screen::HORIZONTAL);
-    cpuBars.emplace_back(screen, monitor.getCpuCore(4), 3, 28, 2, 48, G15::Draw::Screen::HORIZONTAL);
-    cpuBars.emplace_back(screen, monitor.getCpuCore(5), 3, 29, 2, 48, G15::Draw::Screen::HORIZONTAL);
-    cpuBars.emplace_back(screen, monitor.getCpuCore(6), 3, 36, 2, 48, G15::Draw::Screen::HORIZONTAL);
-    cpuBars.emplace_back(screen, monitor.getCpuCore(7), 3, 37, 2, 48, G15::Draw::Screen::HORIZONTAL);
+    screen.registerDrawable(std::make_unique<G15::Draw::Text>(screen, monitor.getClock(), 118, 2, G15::Draw::Screen::MEDIUM));
 
-    G15::Draw::Text clock(screen, monitor.getClock(), 118, 2, G15::Draw::Screen::MEDIUM);
+    screen.registerDrawable(std::make_unique<G15::Draw::Bar>(screen, monitor.getMemory(), 118, 13, 2, 39, G15::Draw::Screen::HORIZONTAL));
+    screen.registerDrawable(std::make_unique<G15::Draw::Bar>(screen, monitor.getSwap(), 118, 14, 2, 39, G15::Draw::Screen::HORIZONTAL));
+    screen.registerDrawable(std::make_unique<G15::Draw::Text>(screen, monitor.getMemory(), 98, 11, G15::Draw::Screen::MEDIUM));
 
-    G15::Draw::Bar memoryBar(screen, monitor.getMemory(), 118, 13, 2, 39, G15::Draw::Screen::HORIZONTAL);
-    G15::Draw::Bar swapBar(screen, monitor.getSwap(), 118, 14, 2, 39, G15::Draw::Screen::HORIZONTAL);
-    G15::Draw::Text memoryPercentage(screen, monitor.getMemory(), 98, 11, G15::Draw::Screen::MEDIUM);
+    uint8_t cpuOffset = 0;
+    for (uint64_t i = 0; i < monitor.getCpuCoreCount(); i++) {
+        screen.registerDrawable(std::make_unique<G15::Draw::Bar>(screen, monitor.getCpuCore(i), 3, 12 + cpuOffset, 2, 48, G15::Draw::Screen::HORIZONTAL));
+        cpuOffset += i % 2 == 0 ? 1 : 7;
+    }
 
     screen.clear();
     screen.drawBanner();
-    screen.flush();
     sleep(5);
 
-    screen.initializeTheme();
-    screen.flush();
+    screen.drawTheme();
+    screen.draw();
 
     signal(SIGINT, signalHandler);
     while (isRunning) {
         monitor.refresh();
-        screen.initializeTheme();
+        screen.draw();
 
-        memoryBar.draw();
-        swapBar.draw();
-        memoryPercentage.draw();
-        clock.draw();
-
-        for (auto &bar : cpuBars) {
-            bar.draw();
-        }
-
-        screen.flush();
         sleep(1);
     }
 }

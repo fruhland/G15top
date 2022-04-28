@@ -17,7 +17,7 @@
 
 namespace G15::Draw {
 
-Bar::Bar(Screen &screen, Monitor::ValueMonitorable &monitorable, uint32_t x, uint32_t y, uint32_t width, uint32_t length, Screen::Orientation orientation) :
+Bar::Bar(Screen &screen, Monitor::ValueMonitorable &monitorable, uint8_t x, uint8_t y, uint8_t width, uint8_t length, Screen::Orientation orientation) :
         Drawable(screen, x, y),
         width(width), length(length),
         orientation(orientation),

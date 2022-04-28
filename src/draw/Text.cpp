@@ -17,7 +17,7 @@
 
 namespace G15::Draw {
 
-Text::Text(Screen &screen, Monitor::TextMonitorable &monitorable, uint32_t x, uint32_t y, Screen::FontSize size) :
+Text::Text(Screen &screen, Monitor::TextMonitorable &monitorable, uint8_t x, uint8_t y, Screen::FontSize size) :
         Drawable(screen, x, y),
         size(size),
         monitorable(monitorable) {}
