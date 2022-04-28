@@ -17,11 +17,10 @@
 #include <csignal>
 #include <iostream>
 #include <unistd.h>
-#include "draw/Screen.h"
-#include "draw/memory/MemoryBar.h"
-#include "draw/memory/MemoryPercentage.h"
-#include "draw/clock/Clock.h"
 #include "monitor/Monitor.h"
+#include "draw/Screen.h"
+#include "draw/Text.h"
+#include "draw/Bar.h"
 
 bool isRunning = true;
 
@@ -38,10 +37,10 @@ int32_t main(int32_t argc, char *argv[]) {
     G15::Monitor::Monitor monitor;
     G15::Draw::Screen screen(argv[1]);
 
-    G15::Draw::MemoryBar memoryBar(screen, monitor.getMemory(), 118, 13, 2, 39, G15::Draw::Screen::HORIZONTAL);
-    G15::Draw::MemoryBar swapBar(screen, monitor.getSwap(), 118, 14, 2, 39, G15::Draw::Screen::HORIZONTAL);
-    G15::Draw::MemoryPercentage memoryPercentage(screen, monitor.getMemory(), 98, 11, G15::Draw::Screen::MEDIUM);
-    G15::Draw::Clock clock(screen , 118, 2, G15::Draw::Screen::MEDIUM, "%X");
+    G15::Draw::Bar memoryBar(screen, monitor.getMemory(), 118, 13, 2, 39, G15::Draw::Screen::HORIZONTAL);
+    G15::Draw::Bar swapBar(screen, monitor.getSwap(), 118, 14, 2, 39, G15::Draw::Screen::HORIZONTAL);
+    G15::Draw::Text memoryPercentage(screen, monitor.getMemory(), 98, 11, G15::Draw::Screen::MEDIUM);
+    G15::Draw::Text clock(screen, monitor.getClock(), 118, 2, G15::Draw::Screen::MEDIUM);
 
     screen.clear();
     screen.drawBanner();

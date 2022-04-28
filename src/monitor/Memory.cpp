@@ -25,7 +25,7 @@ uint64_t Memory::getTotal() const {
     return memoryInfo.total;
 }
 
-uint64_t Memory::getUsed() const {
+uint64_t Memory::getValue() const {
     return memoryInfo.user;
 }
 

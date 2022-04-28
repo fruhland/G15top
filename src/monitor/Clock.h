@@ -13,42 +13,44 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>
  */
 
-#ifndef G15TOP_MEMORYBAR_H
-#define G15TOP_MEMORYBAR_H
+#ifndef G15TOP_CLOCK_H
+#define G15TOP_CLOCK_H
 
-#include "../../monitor/MemoryMonitorable.h"
-#include "../Bar.h"
+#include "TextMonitorable.h"
 
-namespace G15::Draw {
+namespace G15::Monitor {
 
-class MemoryBar : public Bar {
+class Clock : public TextMonitorable {
 
 public:
     /**
      * Constructor.
      */
-    MemoryBar(Screen &screen, Monitor::MemoryMonitorable &memory, uint32_t x, uint32_t y, uint32_t width, uint32_t length, Screen::Orientation orientation);
+    explicit Clock(const char *format);
 
     /**
      * Copy constructor.
      */
-    MemoryBar(const MemoryBar &other) = delete;
+    Clock(const Clock &other) = delete;
 
     /**
      * Assignment operator.
      */
-    MemoryBar &operator=(const MemoryBar &other) = delete;
+    Clock &operator=(const Clock &other) = delete;
 
     /**
      * Destructor.
      */
-    ~MemoryBar() = default;
+    ~Clock() = default;
 
-    void draw() override;
+    void refresh() override;
+
+    [[nodiscard]] std::string getText() const override;
 
 private:
 
-    Monitor::MemoryMonitorable &memory;
+    char buffer[128]{};
+    std::string format;
 };
 
 }

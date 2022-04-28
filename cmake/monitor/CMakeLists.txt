@@ -23,9 +23,11 @@ PKG_CHECK_MODULES(LIBGTOP REQUIRED libgtop-2.0)
 
 # Set source files
 set(SOURCE_FILES
+        ${G15TOP_SRC_DIR}/monitor/Clock.cpp
         ${G15TOP_SRC_DIR}/monitor/Memory.cpp
         ${G15TOP_SRC_DIR}/monitor/Monitor.cpp
-        ${G15TOP_SRC_DIR}/monitor/Swap.cpp)
+        ${G15TOP_SRC_DIR}/monitor/Swap.cpp
+        ${G15TOP_SRC_DIR}/monitor/ValueMonitorable.cpp)
 
 add_library(${PROJECT_NAME} STATIC ${SOURCE_FILES})
 

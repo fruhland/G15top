@@ -13,41 +13,46 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>
  */
 
-#ifndef G15TOP_CLOCK_H
-#define G15TOP_CLOCK_H
+#ifndef G15TOP_VALUEMONITORABLE_H
+#define G15TOP_VALUEMONITORABLE_H
 
-#include "../Text.h"
+#include <cstdint>
+#include "TextMonitorable.h"
 
-namespace G15::Draw {
+namespace G15::Monitor {
 
-class Clock : public Text {
+class ValueMonitorable : public TextMonitorable {
 
 public:
     /**
      * Constructor.
      */
-    explicit Clock(Screen &screen, uint32_t x, uint32_t y, Screen::FontSize size, const char *format);
+    explicit ValueMonitorable() = default;
 
     /**
      * Copy constructor.
      */
-    Clock(const Clock &other) = delete;
+    ValueMonitorable(const ValueMonitorable &other) = delete;
 
     /**
      * Assignment operator.
      */
-    Clock &operator=(const Clock &other) = delete;
+    ValueMonitorable &operator=(const ValueMonitorable &other) = delete;
 
     /**
      * Destructor.
      */
-    ~Clock() = default;
+    ~ValueMonitorable() = default;
 
-    void draw() override;
+    void refresh() override = 0;
 
-private:
+    [[nodiscard]] virtual uint64_t getTotal() const = 0;
 
-    std::string format;
+    [[nodiscard]] virtual uint64_t getValue() const = 0;
+
+    [[nodiscard]] double getPercentage() const;
+
+    [[nodiscard]] std::string getText() const override;
 };
 
 }

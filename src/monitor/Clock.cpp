@@ -15,19 +15,20 @@
 
 #include "Clock.h"
 
-namespace G15::Draw {
+namespace G15::Monitor {
 
-Clock::Clock(Screen &screen, uint32_t x, uint32_t y, Screen::FontSize size, const char *format) :
-        Text(screen, x, y, size),
+Clock::Clock(const char *format) :
         format(format) {}
 
-void Clock::draw() {
-    char buffer[128];
+void Clock::refresh() {
     auto rawTime = time(nullptr);
     auto *time = localtime(&rawTime);
 
     strftime(buffer, sizeof(buffer), format.c_str(), time);
-    screen.drawString(x, y, buffer, size);
+}
+
+std::string Clock::getText() const {
+    return buffer;
 }
 
 }

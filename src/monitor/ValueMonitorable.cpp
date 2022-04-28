@@ -13,23 +13,17 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>
  */
 
-#include "MemoryBar.h"
+#include "ValueMonitorable.h"
 
-namespace G15::Draw {
+namespace G15::Monitor {
 
-MemoryBar::MemoryBar(Screen &screen, Monitor::MemoryMonitorable &memory, uint32_t x, uint32_t y, uint32_t width, uint32_t length, Screen::Orientation orientation) :
-        Bar(screen, x, y, width, length, orientation),
-        memory(memory) {}
+double Monitor::ValueMonitorable::getPercentage() const {
+    return static_cast<double>(getValue()) / static_cast<double>(getTotal());
+}
 
-void MemoryBar::draw() {
-    auto usedMemory = memory.getUsed();
-    auto totalMemory = memory.getTotal();
-
-    if (orientation == Screen::HORIZONTAL) {
-        screen.drawHorizontalProgressBar(x, y, x + (length - 1), y + (width - 1), usedMemory, totalMemory);
-    } else {
-        screen.drawVerticalProgressBar(x, y - (length - 1), x + (width - 1), y, usedMemory, totalMemory);
-    }
+std::string ValueMonitorable::getText() const {
+    auto percentage = static_cast<uint8_t>(getPercentage() * 100);
+    return std::to_string(percentage >= 100 ? 99 : percentage);
 }
 
 }

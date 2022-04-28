@@ -55,8 +55,7 @@ void Screen::initializeTheme() {
     drawSplash(theme.c_str());
 }
 
-void Screen::drawHorizontalProgressBar(uint32_t x1, uint32_t y1, uint32_t x2, uint32_t y2, uint64_t value, uint64_t maxValue) {
-    auto percentage = static_cast<double>(value) / static_cast<double>(maxValue);
+void Screen::drawHorizontalProgressBar(uint32_t x1, uint32_t y1, uint32_t x2, uint32_t y2, double percentage) {
     auto length = (x2 - x1) * percentage;
     if (length < 1) {
         return;
@@ -66,19 +65,18 @@ void Screen::drawHorizontalProgressBar(uint32_t x1, uint32_t y1, uint32_t x2, ui
                           static_cast<int32_t>(x1 + length), static_cast<int32_t>(y2), G15_PIXEL_FILL, G15_COLOR_BLACK);
 }
 
-void Screen::drawVerticalProgressBar(uint32_t x1, uint32_t y1, uint32_t x2, uint32_t y2, uint64_t value, uint64_t maxValue) {
-    auto percentage = static_cast<double>(value) / static_cast<double>(maxValue);
+void Screen::drawVerticalProgressBar(uint32_t x1, uint32_t y1, uint32_t x2, uint32_t y2, double percentage) {
     auto height = (y2 - y1) * percentage;
+    if (height < 1) {
+        return;
+    }
+
     g15r_pixelReverseFill(&canvas, static_cast<int32_t>(x1), static_cast<int32_t>(y2 - height),
                           static_cast<int32_t>(x2), static_cast<int32_t>(y2), G15_PIXEL_FILL, G15_COLOR_BLACK);
 }
 
 void Screen::drawString(uint32_t x, uint32_t y, const char *string, FontSize size) {
     g15r_renderString(&canvas, (unsigned char*) string, 0, size, x, y);
-}
-
-void Screen::drawNumber(uint32_t x, uint32_t y, uint32_t value, FontSize size) {
-    drawString(x, y, std::to_string(value).c_str(), size);
 }
 
 void Screen::flush() {

@@ -17,17 +17,25 @@
 
 namespace G15::Monitor {
 
+Monitor::Monitor() :
+        clock("%X") {}
+
 void Monitor::refresh() {
+    clock.refresh();
     memory.refresh();
     swap.refresh();
 }
 
-Memory &Monitor::getMemory() {
-    return memory;
+Clock& Monitor::getClock() const {
+    return const_cast<Clock&>(clock);
 }
 
-Swap &Monitor::getSwap() {
-    return swap;
+Memory& Monitor::getMemory() const {
+    return const_cast<Memory&>(memory);
+}
+
+Swap& Monitor::getSwap() const {
+    return const_cast<Swap&>(swap);
 }
 
 }

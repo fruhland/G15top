@@ -62,13 +62,11 @@ public:
 
     void initializeTheme();
 
-    void drawHorizontalProgressBar(uint32_t x1, uint32_t y1, uint32_t x2, uint32_t y2, uint64_t value, uint64_t maxValue);
+    void drawHorizontalProgressBar(uint32_t x1, uint32_t y1, uint32_t x2, uint32_t y2, double percentage);
 
-    void drawVerticalProgressBar(uint32_t x1, uint32_t y1, uint32_t x2, uint32_t y2, uint64_t value, uint64_t maxValue);
+    void drawVerticalProgressBar(uint32_t x1, uint32_t y1, uint32_t x2, uint32_t y2, double percentage);
 
     void drawString(uint32_t x, uint32_t y, const char *string, FontSize size);
-
-    void drawNumber(uint32_t x, uint32_t y, uint32_t value, FontSize size);
 
     void flush();
 

@@ -17,8 +17,18 @@
 
 namespace G15::Draw {
 
-Bar::Bar(Screen &screen, uint32_t x, uint32_t y, uint32_t width, uint32_t length, Screen::Orientation orientation) :
+Bar::Bar(Screen &screen, Monitor::ValueMonitorable &monitorable, uint32_t x, uint32_t y, uint32_t width, uint32_t length, Screen::Orientation orientation) :
         Drawable(screen, x, y),
         width(width), length(length),
-        orientation(orientation) {}
+        orientation(orientation),
+        monitorable(monitorable) {}
+
+void Bar::draw() {
+    if (orientation == Screen::HORIZONTAL) {
+        screen.drawHorizontalProgressBar(x, y, x + (length - 1), y + (width - 1), monitorable.getPercentage());
+    } else {
+        screen.drawVerticalProgressBar(x, y - (length - 1), x + (width - 1), y, monitorable.getPercentage());
+    }
+}
+
 }

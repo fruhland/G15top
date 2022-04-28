@@ -25,7 +25,7 @@ uint64_t Swap::getTotal() const {
     return swapInfo.total;
 }
 
-uint64_t Swap::getUsed() const {
+uint64_t Swap::getValue() const {
     return swapInfo.used;
 }
 

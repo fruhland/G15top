@@ -13,42 +13,41 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>
  */
 
-#ifndef G15TOP_MEMORYPERCENTAGE_H
-#define G15TOP_MEMORYPERCENTAGE_H
+#ifndef G15TOP_TEXTMONITORABLE_H
+#define G15TOP_TEXTMONITORABLE_H
 
-#include "../../monitor/MemoryMonitorable.h"
-#include "../Text.h"
+#include <cstdint>
+#include <string>
+#include "Monitorable.h"
 
-namespace G15::Draw {
+namespace G15::Monitor {
 
-class MemoryPercentage : public Text {
+class TextMonitorable : public Monitorable {
 
 public:
     /**
      * Constructor.
      */
-    MemoryPercentage(Screen &screen, Monitor::MemoryMonitorable &memory, uint32_t x, uint32_t y, Screen::FontSize size);
+    explicit TextMonitorable() = default;
 
     /**
      * Copy constructor.
      */
-    MemoryPercentage(const MemoryPercentage &other) = delete;
+    TextMonitorable(const TextMonitorable &other) = delete;
 
     /**
      * Assignment operator.
      */
-    MemoryPercentage &operator=(const MemoryPercentage &other) = delete;
+    TextMonitorable &operator=(const TextMonitorable &other) = delete;
 
     /**
      * Destructor.
      */
-    ~MemoryPercentage() = default;
+    ~TextMonitorable() = default;
 
-    void draw() override;
+    void refresh() override = 0;
 
-private:
-
-    Monitor::MemoryMonitorable &memory;
+    [[nodiscard]] virtual std::string getText() const = 0;
 };
 
 }

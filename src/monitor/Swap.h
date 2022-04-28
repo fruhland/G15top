@@ -18,11 +18,11 @@
 
 #include <cstdint>
 #include <glibtop/swap.h>
-#include "MemoryMonitorable.h"
+#include "ValueMonitorable.h"
 
 namespace G15::Monitor {
 
-class Swap : public MemoryMonitorable {
+class Swap : public ValueMonitorable {
 
 public:
     /**
@@ -49,7 +49,7 @@ public:
 
     [[nodiscard]] uint64_t getTotal() const override;
 
-    [[nodiscard]] uint64_t getUsed() const override;
+    [[nodiscard]] uint64_t getValue() const override;
 
 private:
 

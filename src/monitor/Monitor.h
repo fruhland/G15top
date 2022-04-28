@@ -20,6 +20,7 @@
 #include <glibtop/mem.h>
 #include "Memory.h"
 #include "Swap.h"
+#include "Clock.h"
 
 namespace G15::Monitor {
 
@@ -29,7 +30,7 @@ public:
     /**
      * Constructor.
      */
-    explicit Monitor() = default;
+    Monitor();
 
     /**
      * Copy constructor.
@@ -48,12 +49,15 @@ public:
 
     void refresh();
 
-    [[nodiscard]] Memory& getMemory();
+    [[nodiscard]] Clock &getClock() const;
 
-    [[nodiscard]] Swap& getSwap();
+    [[nodiscard]] Memory& getMemory() const;
+
+    [[nodiscard]] Swap& getSwap() const;
 
 private:
 
+    Clock clock;
     Memory memory;
     Swap swap;
 };
