@@ -24,6 +24,7 @@ PKG_CHECK_MODULES(LIBGTOP REQUIRED libgtop-2.0)
 # Set source files
 set(SOURCE_FILES
         ${G15TOP_SRC_DIR}/monitor/Clock.cpp
+        ${G15TOP_SRC_DIR}/monitor/CpuFrequency.cpp
         ${G15TOP_SRC_DIR}/monitor/CpuUsage.cpp
         ${G15TOP_SRC_DIR}/monitor/Memory.cpp
         ${G15TOP_SRC_DIR}/monitor/Monitor.cpp
@@ -33,4 +34,4 @@ set(SOURCE_FILES
 add_library(${PROJECT_NAME} STATIC ${SOURCE_FILES})
 
 target_include_directories(${PROJECT_NAME} PUBLIC ${LIBGTOP_INCLUDE_DIRS})
-target_link_libraries(${PROJECT_NAME} util gtop-2.0)
+target_link_libraries(${PROJECT_NAME} util glib-2.0 gtop-2.0)

@@ -23,6 +23,7 @@
 #include "Swap.h"
 #include "Clock.h"
 #include "CpuUsage.h"
+#include "CpuFrequency.h"
 
 namespace G15::Monitor {
 
@@ -57,19 +58,26 @@ public:
 
     [[nodiscard]] Swap& getSwap() const;
 
-    [[nodiscard]] CpuUsage& getCpu() const;
+    [[nodiscard]] CpuUsage& getCpuUsage() const;
 
-    [[nodiscard]] CpuUsage& getCpuCore(uint64_t core) const;
+    [[nodiscard]] CpuUsage& getCpuCoreUsage(uint64_t core) const;
+
+    [[nodiscard]] CpuFrequency & getCpuFrequency() const;
+
+    [[nodiscard]] CpuFrequency & getCpuCoreFrequency(uint64_t core) const;
 
     [[nodiscard]] uint64_t getCpuCoreCount() const;
 
 private:
 
+    uint64_t cpuCoreCount;
     Clock clock;
     Memory memory;
     Swap swap;
-    CpuUsage cpu;
-    std::vector<CpuUsage> cpuCores;
+    CpuUsage cpuUsage;
+    CpuFrequency cpuFrequency;
+    std::vector<CpuUsage> cpuCoreUsage;
+    std::vector<CpuFrequency> cpuCoreFrequency;
 };
 
 }

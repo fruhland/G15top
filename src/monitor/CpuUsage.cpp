@@ -26,7 +26,7 @@ CpuUsage::CpuUsage(uint64_t core) :
 CpuUsage::CpuUsage(CpuUsage &&other) noexcept :
         core(other.core),
         lastCpuInfo(other.lastCpuInfo),
-        currentCpuInfo(other.currentCpuInfo){}
+        currentCpuInfo(other.currentCpuInfo) {}
 
 void CpuUsage::refresh() {
     lastCpuInfo = currentCpuInfo;

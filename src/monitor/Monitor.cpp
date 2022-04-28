@@ -18,12 +18,14 @@
 
 namespace G15::Monitor {
 
-Monitor::Monitor() : clock("%X") {
+Monitor::Monitor() :
+        clock("%X"), cpuFrequency(CpuFrequency::AVERAGE) {
     glibtop_init();
 
-    auto &systemInfo = *glibtop_get_sysinfo();
-    for (uint64_t i = 0; i < systemInfo.ncpu; i++) {
-        cpuCores.emplace_back(i);
+    cpuCoreCount = glibtop_get_sysinfo()->ncpu;
+    for (uint64_t i = 0; i < cpuCoreCount; i++) {
+        cpuCoreUsage.emplace_back(i);
+        cpuCoreFrequency.emplace_back(i);
     }
 }
 
@@ -32,12 +34,15 @@ Monitor::~Monitor() {
 }
 
 void Monitor::refresh() {
+    const_cast<glibtop_sysinfo*>(glibtop_get_sysinfo())->flags = 0;
     clock.refresh();
     memory.refresh();
     swap.refresh();
-    cpu.refresh();
-    for (auto &core : cpuCores) {
-        core.refresh();
+    cpuUsage.refresh();
+    cpuFrequency.refresh();
+    for (uint64_t i = 0; i < cpuCoreCount; i++) {
+        cpuCoreUsage[i].refresh();
+        cpuCoreFrequency[i].refresh();
     }
 }
 
@@ -53,16 +58,24 @@ Swap& Monitor::getSwap() const {
     return const_cast<Swap&>(swap);
 }
 
-CpuUsage& Monitor::getCpu() const {
-    return const_cast<CpuUsage&>(cpu);
+CpuUsage& Monitor::getCpuUsage() const {
+    return const_cast<CpuUsage&>(cpuUsage);
 }
 
-CpuUsage &Monitor::getCpuCore(uint64_t core) const {
-    return const_cast<CpuUsage&>(cpuCores[core]);
+CpuUsage &Monitor::getCpuCoreUsage(uint64_t core) const {
+    return const_cast<CpuUsage&>(cpuCoreUsage[core]);
+}
+
+CpuFrequency& Monitor::getCpuFrequency() const {
+    return const_cast<CpuFrequency&>(cpuFrequency);
+}
+
+CpuFrequency& Monitor::getCpuCoreFrequency(uint64_t core) const {
+    return const_cast<CpuFrequency&>(cpuCoreFrequency[core]);
 }
 
 uint64_t Monitor::getCpuCoreCount() const {
-    return cpuCores.size();
+    return cpuCoreUsage.size();
 }
 
 }

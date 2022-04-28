@@ -13,58 +13,72 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>
  */
 
-#ifndef G15TOP_CPUUSAGE_H
-#define G15TOP_CPUUSAGE_H
+#ifndef G15TOP_CPUFREQUENCY_H
+#define G15TOP_CPUFREQUENCY_H
 
-#include <glibtop/cpu.h>
-#include "ValueMonitorable.h"
+#include "TextMonitorable.h"
 
 namespace G15::Monitor {
 
-class CpuUsage : public ValueMonitorable {
+class CpuFrequency : public TextMonitorable {
 
 public:
+
+    enum GatheringMode {
+        MIN,
+        MAX,
+        AVERAGE
+    };
+
     /**
-     * Constructor for monitoring total cpuUsage usage.
+     * Constructor for monitoring total cpu frequency.
      */
-    CpuUsage();
+    explicit CpuFrequency(GatheringMode mode);
 
     /**
      * Constructor for monitoring a specific cpuUsage core.
      */
-    explicit CpuUsage(uint64_t core);
+    explicit CpuFrequency(uint64_t core);
 
     /**
      * Copy constructor.
      */
-    CpuUsage(const CpuUsage &other) = delete;
+    CpuFrequency(const CpuFrequency &other) = delete;
 
     /**
      * Move constructor.
      */
-    CpuUsage(CpuUsage &&other) noexcept;
+    CpuFrequency(CpuFrequency &&other) noexcept;
 
     /**
      * Assignment operator.
      */
-    CpuUsage &operator=(const CpuUsage &other) = delete;
+    CpuFrequency &operator=(const CpuFrequency &other) = delete;
 
     /**
      * Destructor.
      */
-    ~CpuUsage() = default;
+    ~CpuFrequency() = default;
 
     void refresh() override;
 
-    [[nodiscard]] uint64_t getTotal() const override;
-
-    [[nodiscard]] uint64_t getValue() const override;
+    [[nodiscard]] std::string getText() const override;
 
 private:
 
+    [[nodiscard]] static double readFrequency(uint64_t core);
+
+    [[nodiscard]] static double calculateMinFrequency();
+
+    [[nodiscard]] static double calculateMaxFrequency();
+
+    [[nodiscard]] static double calculateAverageFrequency();
+
     uint64_t core;
-    glibtop_cpu lastCpuInfo{};
-    glibtop_cpu currentCpuInfo{};
+    GatheringMode gatheringMode;
+    double currentFrequency{};
+
+    static const constexpr char *FREQUENCY_KEY = "cpu MHz";
 };
 
 }
