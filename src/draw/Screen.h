@@ -77,13 +77,11 @@ public:
 
 private:
 
-    void drawSplash(const char *path);
-
     [[nodiscard]] static bool checkFile(const char *path);
 
     int32_t screen;
     g15canvas canvas{};
-    std::string theme;
+    char *themeBuffer;
     std::vector<std::unique_ptr<Drawable>> drawables;
 };
 

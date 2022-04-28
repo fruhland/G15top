@@ -22,7 +22,24 @@
 
 namespace G15::Draw {
 
-Screen::Screen(const char *theme) : Drawable(*this, 0, 0), theme(std::string(theme) + "/theme.wbmp") {
+Screen::Screen(const char *theme) : Drawable(*this, 0, 0) {
+    if (!checkFile(theme)) {
+        throw Util::Exception("Theme not found '" + std::string(theme) + "'!");
+    }
+
+    auto splashFile = std::string(theme) + "/theme.wbmp";
+
+    if (!checkFile(splashFile.c_str())) {
+        throw Util::Exception("Splash file not found '" + splashFile + "'!");
+    }
+
+    int32_t width = 0;
+    int32_t height = 0;
+    themeBuffer = g15r_loadWbmpToBuf((char*) splashFile.c_str(), &width, &height);
+    if (width != G15_LCD_WIDTH || height != G15_LCD_HEIGHT) {
+        throw Util::Exception("Theme splash has to be " + std::to_string(G15_LCD_WIDTH) + "x" + std::to_string(G15_LCD_HEIGHT) + " pixels!");
+    }
+
     screen = new_g15_screen(G15_G15RBUF);
     if (screen < 0) {
         throw Util::Exception("Unable to initialize G15 screen!");
@@ -32,6 +49,7 @@ Screen::Screen(const char *theme) : Drawable(*this, 0, 0), theme(std::string(the
 }
 
 Screen::~Screen() {
+    delete themeBuffer;
     close(screen);
 }
 
@@ -50,11 +68,7 @@ void Screen::drawBanner() {
 }
 
 void Screen::drawTheme() {
-    if (!checkFile(theme.c_str())) {
-        throw Util::Exception("Theme not found '" + theme + "'!");
-    }
-
-    drawSplash(theme.c_str());
+    memcpy (canvas.buffer, themeBuffer, G15_BUFFER_LEN);
 }
 
 void Screen::drawHorizontalProgressBar(uint32_t x1, uint32_t y1, uint32_t x2, uint32_t y2, double percentage) {
@@ -89,10 +103,6 @@ void Screen::draw() {
     }
 
     g15_send(screen, reinterpret_cast<char *>(canvas.buffer), G15_BUFFER_LEN);
-}
-
-void Screen::drawSplash(const char *path) {
-    g15r_loadWbmpSplash(&canvas, (char *) path);
 }
 
 bool Screen::checkFile(const char *path) {
