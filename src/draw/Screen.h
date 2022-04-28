@@ -51,13 +51,20 @@ public:
         LARGE = G15_TEXT_LARGE
     };
 
+    enum Orientation {
+        HORIZONTAL,
+        VERTICAL
+    };
+
     void clear();
 
     void drawBanner();
 
     void initializeTheme();
 
-    void drawProgressBar(uint32_t x1, uint32_t y1, uint32_t x2, uint32_t y2, uint64_t value, uint64_t maxValue);
+    void drawHorizontalProgressBar(uint32_t x1, uint32_t y1, uint32_t x2, uint32_t y2, uint64_t value, uint64_t maxValue);
+
+    void drawVerticalProgressBar(uint32_t x1, uint32_t y1, uint32_t x2, uint32_t y2, uint64_t value, uint64_t maxValue);
 
     void drawString(uint32_t x, uint32_t y, const char *string, FontSize size);
 

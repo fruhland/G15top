@@ -17,17 +17,17 @@
 #define G15TOP_MEMORYBAR_H
 
 #include "../../monitor/Monitor.h"
-#include "../Drawable.h"
+#include "../Bar.h"
 
 namespace G15::Draw {
 
-class MemoryBar : public Drawable {
+class MemoryBar : public Bar {
 
 public:
     /**
      * Constructor.
      */
-    MemoryBar(Screen &screen, Monitor::Monitor &monitor, uint32_t x1, uint32_t y1, uint32_t x2, uint32_t y2);
+    MemoryBar(Screen &screen, Monitor::Monitor &monitor, uint32_t x, uint32_t y, uint32_t width, uint32_t length, Screen::Orientation orientation);
 
     /**
      * Copy constructor.
@@ -48,7 +48,6 @@ public:
 
 private:
 
-    uint32_t x1, y1, x2, y2;
     Monitor::Monitor &monitor;
 };
 

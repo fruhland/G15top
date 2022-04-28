@@ -37,7 +37,7 @@ int32_t main(int32_t argc, char *argv[]) {
     G15::Monitor::Monitor monitor;
     G15::Draw::Screen screen(argv[1]);
 
-    G15::Draw::MemoryBar memoryBar(screen, monitor, 118, 13, 156, 15);
+    G15::Draw::MemoryBar memoryBar(screen, monitor, 118, 13, 3, 39, G15::Draw::Screen::HORIZONTAL);
     G15::Draw::MemoryPercentage memoryPercentage(screen, monitor, 98, 11, G15::Draw::Screen::MEDIUM);
     G15::Draw::Clock clock(screen , 118, 2, G15::Draw::Screen::MEDIUM, "%X");
 

@@ -18,8 +18,8 @@
 namespace G15::Draw {
 
 Clock::Clock(Screen &screen, uint32_t x, uint32_t y, Screen::FontSize size, const char *format) :
-        Drawable(screen),
-        x(x), y(y), size(size), format(format) {}
+        Text(screen, x, y, size),
+        format(format) {}
 
 void Clock::draw() {
     char buffer[128];
@@ -27,7 +27,7 @@ void Clock::draw() {
     auto *time = localtime(&rawTime);
 
     strftime(buffer, sizeof(buffer), format.c_str(), time);
-    getScreen().drawString(x, y, buffer, size);
+    screen.drawString(x, y, buffer, size);
 }
 
 }

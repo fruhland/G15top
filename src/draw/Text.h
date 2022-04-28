@@ -13,42 +13,41 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>
  */
 
-#ifndef G15TOP_DRAWABLE_H
-#define G15TOP_DRAWABLE_H
+#ifndef G15TOP_TEXT_H
+#define G15TOP_TEXT_H
 
-#include "Screen.h"
+#include "Drawable.h"
 
 namespace G15::Draw {
 
-class Drawable {
+class Text : public Drawable {
 
 public:
     /**
      * Constructor.
      */
-    Drawable(Screen &screen, uint32_t x, uint32_t y);
+    Text(Screen &screen, uint32_t x, uint32_t y, Screen::FontSize size);
 
     /**
      * Copy constructor.
      */
-    Drawable(const Drawable &other) = delete;
+    Text(const Text &other) = delete;
 
     /**
      * Assignment operator.
      */
-    Drawable &operator=(const Drawable &other) = delete;
+    Text &operator=(const Text &other) = delete;
 
     /**
      * Destructor.
      */
-    ~Drawable() = default;
+    ~Text() = default;
 
-    virtual void draw() = 0;
+    void draw() override = 0;
 
 protected:
 
-    Screen &screen;
-    uint32_t x, y;
+    Screen::FontSize size;
 };
 
 }

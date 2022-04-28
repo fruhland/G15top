@@ -17,11 +17,11 @@
 #define G15TOP_MEMORYPERCENTAGE_H
 
 #include "../../monitor/Monitor.h"
-#include "../Drawable.h"
+#include "../Text.h"
 
 namespace G15::Draw {
 
-class MemoryPercentage : public Drawable {
+class MemoryPercentage : public Text {
 
 public:
     /**
@@ -48,8 +48,6 @@ public:
 
 private:
 
-    uint32_t x, y;
-    Screen::FontSize size;
     Monitor::Monitor &monitor;
 };
 

@@ -17,11 +17,8 @@
 
 namespace G15::Draw {
 
-Drawable::Drawable(Screen &screen) :
-        screen(screen) {}
-
-Screen &Drawable::getScreen() {
-    return screen;
-}
+Drawable::Drawable(Screen &screen, uint32_t x, uint32_t y) :
+        screen(screen),
+        x(x), y(y) {}
 
 }

@@ -18,16 +18,15 @@
 namespace G15::Draw {
 
 MemoryPercentage::MemoryPercentage(Screen &screen, Monitor::Monitor &monitor, uint32_t x, uint32_t y, Screen::FontSize size) :
-        Drawable(screen),
-        monitor(monitor),
-        x(x), y(y), size(size) {}
+        Text(screen, x, y, size),
+        monitor(monitor) {}
 
 void MemoryPercentage::draw() {
     auto usedMemory = monitor.getMemory().getUsedMemory();
     auto totalMemory = monitor.getMemory().getTotalMemory();
     auto percentage = static_cast<double>(usedMemory) / static_cast<double>(totalMemory) * 100;
 
-    getScreen().drawNumber(x, y, static_cast<uint32_t>(percentage), size);
+    screen.drawNumber(x, y, static_cast<uint32_t>(percentage >= 100 ? 99 : percentage), size);
 }
 
 }

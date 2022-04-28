@@ -55,10 +55,18 @@ void Screen::initializeTheme() {
     drawSplash(theme.c_str());
 }
 
-void Screen::drawProgressBar(uint32_t x1, uint32_t y1, uint32_t x2, uint32_t y2, uint64_t value, uint64_t maxValue) {
-    auto percentage = static_cast<double>(value) / maxValue;
+void Screen::drawHorizontalProgressBar(uint32_t x1, uint32_t y1, uint32_t x2, uint32_t y2, uint64_t value, uint64_t maxValue) {
+    auto percentage = static_cast<double>(value) / static_cast<double>(maxValue);
     auto length = (x2 - x1) * percentage;
-    g15r_pixelReverseFill(&canvas, x1, y1, static_cast<int32_t>(x1 + length), y2, G15_PIXEL_FILL, G15_COLOR_BLACK);
+    g15r_pixelReverseFill(&canvas, static_cast<int32_t>(x1), static_cast<int32_t>(y1),
+                          static_cast<int32_t>(x1 + length), static_cast<int32_t>(y2), G15_PIXEL_FILL, G15_COLOR_BLACK);
+}
+
+void Screen::drawVerticalProgressBar(uint32_t x1, uint32_t y1, uint32_t x2, uint32_t y2, uint64_t value, uint64_t maxValue) {
+    auto percentage = static_cast<double>(value) / static_cast<double>(maxValue);
+    auto height = (y2 - y1) * percentage;
+    g15r_pixelReverseFill(&canvas, static_cast<int32_t>(x1), static_cast<int32_t>(y2 - height),
+                          static_cast<int32_t>(x2), static_cast<int32_t>(y2), G15_PIXEL_FILL, G15_COLOR_BLACK);
 }
 
 void Screen::drawString(uint32_t x, uint32_t y, const char *string, FontSize size) {

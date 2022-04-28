@@ -20,8 +20,10 @@ include_directories(${HHUOS_SRC_DIR})
 
 # Set source files
 set(SOURCE_FILES
+        ${G15TOP_SRC_DIR}/draw/Bar.cpp
         ${G15TOP_SRC_DIR}/draw/Drawable.cpp
-        ${G15TOP_SRC_DIR}/draw/Screen.cpp)
+        ${G15TOP_SRC_DIR}/draw/Screen.cpp
+        ${G15TOP_SRC_DIR}/draw/Text.cpp)
 
 add_library(${PROJECT_NAME} STATIC ${SOURCE_FILES})
 

@@ -17,16 +17,19 @@
 
 namespace G15::Draw {
 
-MemoryBar::MemoryBar(Screen &screen, Monitor::Monitor &monitor, uint32_t x1, uint32_t y1, uint32_t x2, uint32_t y2) :
-        Drawable(screen),
-        monitor(monitor),
-        x1(x1), y1(y1), x2(x2), y2(y2) {}
+MemoryBar::MemoryBar(Screen &screen, Monitor::Monitor &monitor, uint32_t x, uint32_t y, uint32_t width, uint32_t length, Screen::Orientation orientation) :
+        Bar(screen, x, y, width, length, orientation),
+        monitor(monitor) {}
 
 void MemoryBar::draw() {
     auto usedMemory = monitor.getMemory().getUsedMemory();
     auto totalMemory = monitor.getMemory().getTotalMemory();
 
-    getScreen().drawProgressBar(x1, y1, x2, y2, usedMemory, totalMemory);
+    if (orientation == Screen::HORIZONTAL) {
+        screen.drawHorizontalProgressBar(x, y, x + (length - 1), y + (width - 1), usedMemory, totalMemory);
+    } else {
+        screen.drawVerticalProgressBar(x, y - (length - 1), x + (width - 1), y, usedMemory, totalMemory);
+    }
 }
 
 }

@@ -16,11 +16,11 @@
 #ifndef G15TOP_CLOCK_H
 #define G15TOP_CLOCK_H
 
-#include "../Drawable.h"
+#include "../Text.h"
 
 namespace G15::Draw {
 
-class Clock : public Drawable {
+class Clock : public Text {
 
 public:
     /**
@@ -47,8 +47,6 @@ public:
 
 private:
 
-    uint32_t x, y;
-    Screen::FontSize size;
     std::string format;
 };
 
