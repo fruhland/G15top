@@ -13,49 +13,20 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>
  */
 
-#ifndef G15TOP_STATISTICS_H
-#define G15TOP_STATISTICS_H
+#include "Memory.h"
 
-#include <cstdint>
-#include <glibtop/mem.h>
+namespace G15::Monitor {
 
-namespace G15::Util {
-
-class Statistics {
-
-public:
-
-    /**
-     * Constructor.
-     */
-    explicit Statistics() = default;
-
-    /**
-     * Copy constructor.
-     */
-    Statistics(const Statistics &other) = delete;
-
-    /**
-     * Assignment operator.
-     */
-    Statistics &operator=(const Statistics &other) = delete;
-
-    /**
-     * Destructor.
-     */
-    ~Statistics() = default;
-
-    void refresh();
-
-    [[nodiscard]] uint64_t getTotalMemory() const;
-
-    [[nodiscard]] uint64_t getUsedMemory() const;
-
-private:
-
-    glibtop_mem memoryInfo{};
-};
-
+void Memory::refresh() {
+    glibtop_get_mem(&memoryInfo);
 }
 
-#endif
+uint64_t Memory::getTotalMemory() const {
+    return memoryInfo.total;
+}
+
+uint64_t Memory::getUsedMemory() const {
+    return memoryInfo.user;
+}
+
+}

@@ -28,4 +28,4 @@ add_library(${PROJECT_NAME} STATIC ${SOURCE_FILES})
 add_subdirectory(clock)
 add_subdirectory(memory)
 
-target_link_libraries(${PROJECT_NAME} util g15render g15daemon_client)
+target_link_libraries(${PROJECT_NAME} monitor util g15render g15daemon_client)

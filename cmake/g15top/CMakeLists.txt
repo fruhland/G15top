@@ -28,4 +28,4 @@ set(SOURCE_FILES
 add_executable(${PROJECT_NAME} ${SOURCE_FILES})
 
 target_include_directories(${PROJECT_NAME} PUBLIC ${LIBGTOP_INCLUDE_DIRS})
-target_link_libraries(${PROJECT_NAME} draw util g15render g15daemon_client gtop-2.0)
+target_link_libraries(${PROJECT_NAME} draw monitor util g15render g15daemon_client gtop-2.0)

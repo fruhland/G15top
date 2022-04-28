@@ -34,11 +34,11 @@ int32_t main(int32_t argc, char *argv[]) {
         return -1;
     }
 
-    G15::Util::Statistics statistics;
+    G15::Monitor::Monitor monitor;
     G15::Draw::Screen screen(argv[1]);
 
-    G15::Draw::MemoryBar memoryBar(screen, statistics, 118, 13, 156, 15);
-    G15::Draw::MemoryPercentage memoryPercentage(screen, statistics, 98, 11, G15::Draw::Screen::MEDIUM);
+    G15::Draw::MemoryBar memoryBar(screen, monitor, 118, 13, 156, 15);
+    G15::Draw::MemoryPercentage memoryPercentage(screen, monitor, 98, 11, G15::Draw::Screen::MEDIUM);
     G15::Draw::Clock clock(screen , 118, 2, G15::Draw::Screen::MEDIUM, "%X");
 
     screen.clear();
@@ -51,7 +51,7 @@ int32_t main(int32_t argc, char *argv[]) {
 
     signal(SIGINT, signalHandler);
     while (isRunning) {
-        statistics.refresh();
+        monitor.refresh();
 
         memoryBar.draw();
         memoryPercentage.draw();

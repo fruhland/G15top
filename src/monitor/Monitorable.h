@@ -13,20 +13,37 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>
  */
 
-#include "Statistics.h"
+#ifndef G15TOP_MONITORABLE_H
+#define G15TOP_MONITORABLE_H
 
-namespace G15::Util {
+namespace G15::Monitor {
 
-void Statistics::refresh() {
-    glibtop_get_mem(&memoryInfo);
+class Monitorable {
+
+public:
+    /**
+     * Constructor.
+     */
+    explicit Monitorable() = default;
+
+    /**
+     * Copy constructor.
+     */
+    Monitorable(const Monitorable &other) = delete;
+
+    /**
+     * Assignment operator.
+     */
+    Monitorable &operator=(const Monitorable &other) = delete;
+
+    /**
+     * Destructor.
+     */
+    ~Monitorable() = default;
+
+    virtual void refresh() = 0;
+};
+
 }
 
-uint64_t Statistics::getTotalMemory() const {
-    return memoryInfo.total;
-}
-
-uint64_t Statistics::getUsedMemory() const {
-    return memoryInfo.user;
-}
-
-}
+#endif

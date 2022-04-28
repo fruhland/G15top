@@ -13,20 +13,16 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>
  */
 
-#include "MemoryBar.h"
+#include "Monitor.h"
 
-namespace G15::Draw {
+namespace G15::Monitor {
 
-MemoryBar::MemoryBar(Screen &screen, Monitor::Monitor &monitor, uint32_t x1, uint32_t y1, uint32_t x2, uint32_t y2) :
-        Drawable(screen),
-        monitor(monitor),
-        x1(x1), y1(y1), x2(x2), y2(y2) {}
+void Monitor::refresh() {
+    memory.refresh();
+}
 
-void MemoryBar::draw() {
-    auto usedMemory = monitor.getMemory().getUsedMemory();
-    auto totalMemory = monitor.getMemory().getTotalMemory();
-
-    getScreen().drawProgressBar(x1, y1, x2, y2, usedMemory, totalMemory);
+Memory &Monitor::getMemory() {
+    return memory;
 }
 
 }

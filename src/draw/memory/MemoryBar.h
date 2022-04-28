@@ -16,7 +16,7 @@
 #ifndef G15TOP_MEMORYBAR_H
 #define G15TOP_MEMORYBAR_H
 
-#include "../../util/Statistics.h"
+#include "../../monitor/Monitor.h"
 #include "../Drawable.h"
 
 namespace G15::Draw {
@@ -27,7 +27,7 @@ public:
     /**
      * Constructor.
      */
-    MemoryBar(Screen &screen, Util::Statistics &statistics, uint32_t x1, uint32_t y1, uint32_t x2, uint32_t y2);
+    MemoryBar(Screen &screen, Monitor::Monitor &monitor, uint32_t x1, uint32_t y1, uint32_t x2, uint32_t y2);
 
     /**
      * Copy constructor.
@@ -49,7 +49,7 @@ public:
 private:
 
     uint32_t x1, y1, x2, y2;
-    Util::Statistics &statistics;
+    Monitor::Monitor &monitor;
 };
 
 }

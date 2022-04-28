@@ -13,20 +13,47 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>
  */
 
-#include "MemoryBar.h"
+#ifndef G15TOP_MONITOR_H
+#define G15TOP_MONITOR_H
 
-namespace G15::Draw {
+#include <cstdint>
+#include <glibtop/mem.h>
+#include "Memory.h"
 
-MemoryBar::MemoryBar(Screen &screen, Monitor::Monitor &monitor, uint32_t x1, uint32_t y1, uint32_t x2, uint32_t y2) :
-        Drawable(screen),
-        monitor(monitor),
-        x1(x1), y1(y1), x2(x2), y2(y2) {}
+namespace G15::Monitor {
 
-void MemoryBar::draw() {
-    auto usedMemory = monitor.getMemory().getUsedMemory();
-    auto totalMemory = monitor.getMemory().getTotalMemory();
+class Monitor {
 
-    getScreen().drawProgressBar(x1, y1, x2, y2, usedMemory, totalMemory);
+public:
+    /**
+     * Constructor.
+     */
+    explicit Monitor() = default;
+
+    /**
+     * Copy constructor.
+     */
+    Monitor(const Monitor &other) = delete;
+
+    /**
+     * Assignment operator.
+     */
+    Monitor &operator=(const Monitor &other) = delete;
+
+    /**
+     * Destructor.
+     */
+    ~Monitor() = default;
+
+    void refresh();
+
+    [[nodiscard]] Memory& getMemory();
+
+private:
+
+    Memory memory;
+};
+
 }
 
-}
+#endif

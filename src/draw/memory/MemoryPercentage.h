@@ -16,7 +16,7 @@
 #ifndef G15TOP_MEMORYPERCENTAGE_H
 #define G15TOP_MEMORYPERCENTAGE_H
 
-#include "../../util/Statistics.h"
+#include "../../monitor/Monitor.h"
 #include "../Drawable.h"
 
 namespace G15::Draw {
@@ -27,7 +27,7 @@ public:
     /**
      * Constructor.
      */
-    MemoryPercentage(Screen &screen, Util::Statistics &statistics, uint32_t x, uint32_t y, Screen::FontSize size);
+    MemoryPercentage(Screen &screen, Monitor::Monitor &monitor, uint32_t x, uint32_t y, Screen::FontSize size);
 
     /**
      * Copy constructor.
@@ -50,7 +50,7 @@ private:
 
     uint32_t x, y;
     Screen::FontSize size;
-    Util::Statistics &statistics;
+    Monitor::Monitor &monitor;
 };
 
 }

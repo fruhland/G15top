@@ -68,4 +68,5 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS}\
 # Add subdirectories
 add_subdirectory(g15top)
 add_subdirectory(draw)
+add_subdirectory(monitor)
 add_subdirectory(util)
