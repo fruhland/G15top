@@ -42,7 +42,7 @@ public:
     /**
      * Destructor.
      */
-    ~Swap() = default;
+    ~Swap() override = default;
 
     void refresh() override;
 

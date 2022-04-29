@@ -21,6 +21,7 @@ include_directories(${HHUOS_SRC_DIR})
 # Set source files
 set(SOURCE_FILES
         ${G15TOP_SRC_DIR}/draw/Bar.cpp
+        ${G15TOP_SRC_DIR}/draw/ByteFormatter.cpp
         ${G15TOP_SRC_DIR}/draw/DateTimeFormatter.cpp
         ${G15TOP_SRC_DIR}/draw/Drawable.cpp
         ${G15TOP_SRC_DIR}/draw/Formatter.cpp

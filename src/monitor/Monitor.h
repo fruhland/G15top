@@ -23,6 +23,7 @@
 #include "Clock.h"
 #include "CpuUsage.h"
 #include "CpuFrequency.h"
+#include "NetworkDownload.h"
 
 namespace G15::Monitor {
 
@@ -57,6 +58,8 @@ public:
 
     [[nodiscard]] Swap& getSwap() const;
 
+    [[nodiscard]] NetworkDownload& getDownload() const;
+
     [[nodiscard]] CpuUsage& getCpuUsage() const;
 
     [[nodiscard]] CpuUsage& getCpuCoreUsage(uint64_t core) const;
@@ -73,6 +76,7 @@ private:
     Clock clock;
     Memory memory;
     Swap swap;
+    NetworkDownload download;
     CpuUsage cpuUsage;
     CpuFrequency cpuFrequency;
     std::vector<CpuUsage> cpuCoreUsage;

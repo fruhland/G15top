@@ -41,11 +41,11 @@ public:
     /**
      * Destructor.
      */
-    ~PercentageMonitorable() = default;
+    ~PercentageMonitorable() override = default;
 
     void refresh() override = 0;
 
-    [[nodiscard]] virtual uint64_t getValue() const = 0;
+    [[nodiscard]] uint64_t getValue() const override = 0;
 
     [[nodiscard]] virtual uint64_t getTotal() const = 0;
 

@@ -13,41 +13,20 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>
  */
 
-#ifndef G15TOP_MONITORABLE_H
-#define G15TOP_MONITORABLE_H
-
-#include <cstdint>
+#include "NetworkDownload.h"
 
 namespace G15::Monitor {
 
-class Monitorable {
+NetworkDownload::NetworkDownload(const char *interface) :
+        interface(interface) {}
 
-public:
-    /**
-     * Constructor.
-     */
-    Monitorable() = default;
-
-    /**
-     * Copy constructor.
-     */
-    Monitorable(const Monitorable &other) = delete;
-
-    /**
-     * Assignment operator.
-     */
-    Monitorable &operator=(const Monitorable &other) = delete;
-
-    /**
-     * Destructor.
-     */
-    virtual ~Monitorable() = default;
-
-    virtual void refresh() = 0;
-
-    [[nodiscard]] virtual uint64_t getValue() const = 0;
-};
-
+void NetworkDownload::refresh() {
+    lastNetworkInfo = currentNetworkInfo;
+    glibtop_get_netload(&currentNetworkInfo, interface.c_str());
 }
 
-#endif
+uint64_t NetworkDownload::getValue() const {
+    return currentNetworkInfo.bytes_in - lastNetworkInfo.bytes_in;
+}
+
+}

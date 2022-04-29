@@ -13,39 +13,51 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>
  */
 
-#ifndef G15TOP_MONITORABLE_H
-#define G15TOP_MONITORABLE_H
+#ifndef G15TOP_BITFORMATTER_H
+#define G15TOP_BITFORMATTER_H
 
-#include <cstdint>
+#include "ValueFormatter.h"
 
-namespace G15::Monitor {
+namespace G15::Draw {
 
-class Monitorable {
+class ByteFormatter : public ValueFormatter {
 
 public:
     /**
      * Constructor.
      */
-    Monitorable() = default;
+    explicit ByteFormatter(const Monitor::Monitorable &monitorable, uint32_t padding);
 
     /**
      * Copy constructor.
      */
-    Monitorable(const Monitorable &other) = delete;
+    ByteFormatter(const Formatter &other) = delete;
 
     /**
      * Assignment operator.
      */
-    Monitorable &operator=(const Monitorable &other) = delete;
+    ByteFormatter &operator=(const ByteFormatter &other) = delete;
 
     /**
      * Destructor.
      */
-    virtual ~Monitorable() = default;
+    ~ByteFormatter() override = default;
 
-    virtual void refresh() = 0;
+    [[nodiscard]] std::string getText() const override;
 
-    [[nodiscard]] virtual uint64_t getValue() const = 0;
+private:
+
+    static std::string formatHighValue(uint64_t value);
+
+    static std::string formatLowValue(uint64_t value);
+
+private:
+
+    static const char *highMetricTable[];
+
+    static const char *lowMetricTable[];
+
+    static const constexpr uint32_t tableSize = 7;
 };
 
 }

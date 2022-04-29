@@ -58,7 +58,7 @@ public:
     /**
      * Destructor.
      */
-    ~CpuFrequency() = default;
+    ~CpuFrequency() override = default;
 
     void refresh() override;
 

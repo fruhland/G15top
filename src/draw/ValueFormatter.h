@@ -45,7 +45,7 @@ public:
 
     [[nodiscard]] std::string getText() const override;
 
-private:
+protected:
 
     uint32_t padding;
 };

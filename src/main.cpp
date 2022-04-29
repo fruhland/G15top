@@ -23,6 +23,7 @@
 #include "draw/DateTimeFormatter.h"
 #include "draw/PercentageFormatter.h"
 #include "draw/ValueFormatter.h"
+#include "draw/ByteFormatter.h"
 
 bool isRunning = true;
 
@@ -42,12 +43,15 @@ int32_t main(int32_t argc, char *argv[]) {
     auto clock = std::make_unique<G15::Draw::DateTimeFormatter>(monitor.getClock(), "%X");
     auto memoryPercentage = std::make_unique<G15::Draw::PercentageFormatter>(monitor.getMemory());
     auto cpuFrequency = std::make_unique<G15::Draw::ValueFormatter>(monitor.getCpuFrequency(), 4);
+    auto download = std::make_unique<G15::Draw::ByteFormatter>(monitor.getDownload(), 7);
 
     screen.registerDrawable(std::make_unique<G15::Draw::Text>(screen, std::move(clock), 118, 2, G15::Draw::Screen::MEDIUM));
 
     screen.registerDrawable(std::make_unique<G15::Draw::Bar>(screen, monitor.getMemory(), 118, 13, 2, 39, G15::Draw::Screen::HORIZONTAL));
     screen.registerDrawable(std::make_unique<G15::Draw::Bar>(screen, monitor.getSwap(), 118, 14, 2, 39, G15::Draw::Screen::HORIZONTAL));
     screen.registerDrawable(std::make_unique<G15::Draw::Text>(screen, std::move(memoryPercentage), 98, 11, G15::Draw::Screen::MEDIUM));
+
+    screen.registerDrawable(std::make_unique<G15::Draw::Text>(screen, std::move(download), 117, 34, G15::Draw::Screen::MEDIUM));
 
     screen.registerDrawable(std::make_unique<G15::Draw::Text>(screen, std::move(cpuFrequency), 25, 2, G15::Draw::Screen::MEDIUM));
 

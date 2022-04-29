@@ -52,7 +52,7 @@ public:
     /**
      * Destructor.
      */
-    ~CpuUsage() = default;
+    ~CpuUsage() override = default;
 
     void refresh() override;
 

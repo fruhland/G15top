@@ -18,7 +18,9 @@
 
 namespace G15::Monitor {
 
-Monitor::Monitor() : cpuFrequency(CpuFrequency::AVERAGE) {
+Monitor::Monitor() :
+        download("enp3s0"),
+        cpuFrequency(CpuFrequency::AVERAGE) {
     glibtop_init();
 
     cpuCoreCount = glibtop_get_sysinfo()->ncpu;
@@ -37,6 +39,7 @@ void Monitor::refresh() {
     clock.refresh();
     memory.refresh();
     swap.refresh();
+    download.refresh();
     cpuUsage.refresh();
     cpuFrequency.refresh();
     for (uint64_t i = 0; i < cpuCoreCount; i++) {
@@ -55,6 +58,10 @@ Memory& Monitor::getMemory() const {
 
 Swap& Monitor::getSwap() const {
     return const_cast<Swap&>(swap);
+}
+
+NetworkDownload &Monitor::getDownload() const {
+    return const_cast<NetworkDownload&>(download);
 }
 
 CpuUsage& Monitor::getCpuUsage() const {

@@ -41,7 +41,7 @@ public:
     /**
      * Destructor.
      */
-    ~Clock() = default;
+    ~Clock() override = default;
 
     void refresh() override;
 
