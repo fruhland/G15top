@@ -50,16 +50,6 @@ void CpuFrequency::refresh() {
     }
 }
 
-std::string CpuFrequency::getText() const {
-    auto frequencyString = std::to_string(static_cast<uint32_t>(currentFrequency));
-    auto spaceString = std::string("");
-    for (int32_t i = 0; i < 4 - frequencyString.length(); i++) {
-        spaceString += " ";
-    }
-
-    return spaceString + frequencyString;
-}
-
 double CpuFrequency::readFrequency(uint64_t core) {
     const auto &systemInfo = *glibtop_get_sysinfo();
     auto rawFrequency = static_cast<const char*>(g_hash_table_lookup(systemInfo.cpuinfo[core].values, FREQUENCY_KEY));
@@ -99,6 +89,10 @@ double CpuFrequency::calculateAverageFrequency() {
     }
 
     return frequencySum / static_cast<double>(systemInfo.ncpu);
+}
+
+uint64_t CpuFrequency::getValue() const {
+    return static_cast<uint64_t>(currentFrequency);
 }
 
 }

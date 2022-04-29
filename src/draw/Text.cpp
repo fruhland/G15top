@@ -17,13 +17,13 @@
 
 namespace G15::Draw {
 
-Text::Text(Screen &screen, Monitor::TextMonitorable &monitorable, uint8_t x, uint8_t y, Screen::FontSize size) :
+Text::Text(Screen &screen, std::unique_ptr<Formatter> formatter, uint8_t x, uint8_t y, Screen::FontSize size) :
         Drawable(screen, x, y),
         size(size),
-        monitorable(monitorable) {}
+        formatter(std::move(formatter)) {}
 
 void Text::draw() {
-    screen.drawString(x, y, monitorable.getText().c_str(), size);
+    screen.drawString(x, y, formatter->getText().c_str(), size);
 }
 
 }

@@ -16,7 +16,6 @@
 #ifndef G15TOP_SCREEN_H
 #define G15TOP_SCREEN_H
 
-#include <cstdint>
 #include <string>
 #include <vector>
 #include <memory>

@@ -13,46 +13,41 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>
  */
 
-#ifndef G15TOP_VALUEMONITORABLE_H
-#define G15TOP_VALUEMONITORABLE_H
+#ifndef G15TOP_VALUEFORMATTER_H
+#define G15TOP_VALUEFORMATTER_H
 
-#include <cstdint>
-#include "TextMonitorable.h"
+#include "Formatter.h"
 
-namespace G15::Monitor {
+namespace G15::Draw {
 
-class ValueMonitorable : public TextMonitorable {
+class ValueFormatter : public Formatter {
 
 public:
     /**
      * Constructor.
      */
-    ValueMonitorable() = default;
+    explicit ValueFormatter(const Monitor::Monitorable &monitorable, uint32_t padding);
 
     /**
      * Copy constructor.
      */
-    ValueMonitorable(const ValueMonitorable &other) = delete;
+    ValueFormatter(const Formatter &other) = delete;
 
     /**
      * Assignment operator.
      */
-    ValueMonitorable &operator=(const ValueMonitorable &other) = delete;
+    ValueFormatter &operator=(const ValueFormatter &other) = delete;
 
     /**
      * Destructor.
      */
-    ~ValueMonitorable() = default;
-
-    void refresh() override = 0;
-
-    [[nodiscard]] virtual uint64_t getTotal() const = 0;
-
-    [[nodiscard]] virtual uint64_t getValue() const = 0;
-
-    [[nodiscard]] double getPercentage() const;
+    ~ValueFormatter() override = default;
 
     [[nodiscard]] std::string getText() const override;
+
+private:
+
+    uint32_t padding;
 };
 
 }

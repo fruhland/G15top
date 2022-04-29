@@ -33,20 +33,20 @@ void CpuUsage::refresh() {
     glibtop_get_cpu(&currentCpuInfo);
 }
 
-uint64_t CpuUsage::getTotal() const {
-    if (core == UINT64_MAX) {
-        return currentCpuInfo.total - lastCpuInfo.total;
-    }
-
-    return currentCpuInfo.xcpu_total[core] - lastCpuInfo.xcpu_total[core];
-}
-
 uint64_t CpuUsage::getValue() const {
     if (core == UINT64_MAX) {
         return (currentCpuInfo.total - currentCpuInfo.idle) - (lastCpuInfo.total - lastCpuInfo.idle);
     }
 
     return (currentCpuInfo.xcpu_total[core] - currentCpuInfo.xcpu_idle[core]) - (lastCpuInfo.xcpu_total[core] - lastCpuInfo.xcpu_idle[core]);
+}
+
+uint64_t CpuUsage::getTotal() const {
+    if (core == UINT64_MAX) {
+        return currentCpuInfo.total - lastCpuInfo.total;
+    }
+
+    return currentCpuInfo.xcpu_total[core] - lastCpuInfo.xcpu_total[core];
 }
 
 }

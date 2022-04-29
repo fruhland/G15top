@@ -16,11 +16,11 @@
 #ifndef G15TOP_CPUFREQUENCY_H
 #define G15TOP_CPUFREQUENCY_H
 
-#include "TextMonitorable.h"
+#include "Monitorable.h"
 
 namespace G15::Monitor {
 
-class CpuFrequency : public TextMonitorable {
+class CpuFrequency : public Monitorable {
 
 public:
 
@@ -62,7 +62,7 @@ public:
 
     void refresh() override;
 
-    [[nodiscard]] std::string getText() const override;
+    [[nodiscard]] uint64_t getValue() const override;
 
 private:
 

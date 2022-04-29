@@ -16,9 +16,8 @@
 #ifndef G15TOP_MONITOR_H
 #define G15TOP_MONITOR_H
 
-#include <cstdint>
-#include <glibtop/mem.h>
 #include <vector>
+#include <glibtop/mem.h>
 #include "Memory.h"
 #include "Swap.h"
 #include "Clock.h"

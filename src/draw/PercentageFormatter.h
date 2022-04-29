@@ -13,45 +13,38 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>
  */
 
-#ifndef G15TOP_TEXT_H
-#define G15TOP_TEXT_H
+#ifndef G15TOP_PERCENTAGEFORMATTER_H
+#define G15TOP_PERCENTAGEFORMATTER_H
 
-#include "../monitor/Monitorable.h"
-#include "Screen.h"
-#include "Drawable.h"
+#include "../monitor/PercentageMonitorable.h"
 #include "Formatter.h"
 
 namespace G15::Draw {
 
-class Text : public Drawable {
+class PercentageFormatter : public Formatter {
 
 public:
     /**
      * Constructor.
      */
-    Text(Screen &screen, std::unique_ptr<Formatter> formatter, uint8_t x, uint8_t y, Screen::FontSize size);
+    explicit PercentageFormatter(const Monitor::PercentageMonitorable &monitorable);
 
     /**
      * Copy constructor.
      */
-    Text(const Text &other) = delete;
+    PercentageFormatter(const Formatter &other) = delete;
 
     /**
      * Assignment operator.
      */
-    Text &operator=(const Text &other) = delete;
+    PercentageFormatter &operator=(const PercentageFormatter &other) = delete;
 
     /**
      * Destructor.
      */
-    ~Text() override = default;
+    ~PercentageFormatter() override = default;
 
-    void draw() override;
-
-protected:
-
-    Screen::FontSize size;
-    const std::unique_ptr<Formatter> formatter;
+    [[nodiscard]] std::string getText() const override;
 };
 
 }

@@ -28,8 +28,8 @@ set(SOURCE_FILES
         ${G15TOP_SRC_DIR}/monitor/CpuUsage.cpp
         ${G15TOP_SRC_DIR}/monitor/Memory.cpp
         ${G15TOP_SRC_DIR}/monitor/Monitor.cpp
-        ${G15TOP_SRC_DIR}/monitor/Swap.cpp
-        ${G15TOP_SRC_DIR}/monitor/ValueMonitorable.cpp)
+        ${G15TOP_SRC_DIR}/monitor/PercentageMonitorable.cpp
+        ${G15TOP_SRC_DIR}/monitor/Swap.cpp)
 
 add_library(${PROJECT_NAME} STATIC ${SOURCE_FILES})
 

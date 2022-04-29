@@ -13,20 +13,12 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>
  */
 
-#include "Swap.h"
+#include "PercentageMonitorable.h"
 
 namespace G15::Monitor {
 
-void Swap::refresh() {
-    glibtop_get_swap(&swapInfo);
-}
-
-uint64_t Swap::getValue() const {
-    return swapInfo.used;
-}
-
-uint64_t Swap::getTotal() const {
-    return swapInfo.total;
+double Monitor::PercentageMonitorable::getPercentage() const {
+    return static_cast<double>(getValue()) / static_cast<double>(getTotal());
 }
 
 }

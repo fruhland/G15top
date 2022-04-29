@@ -16,13 +16,12 @@
 #ifndef G15TOP_MEMORY_H
 #define G15TOP_MEMORY_H
 
-#include <cstdint>
 #include <glibtop/mem.h>
-#include "ValueMonitorable.h"
+#include "PercentageMonitorable.h"
 
 namespace G15::Monitor {
 
-class Memory : public ValueMonitorable {
+class Memory : public PercentageMonitorable {
 
 public:
     /**
@@ -47,9 +46,9 @@ public:
 
     void refresh() override;
 
-    [[nodiscard]] uint64_t getTotal() const override;
-
     [[nodiscard]] uint64_t getValue() const override;
+
+    [[nodiscard]] uint64_t getTotal() const override;
 
 private:
 

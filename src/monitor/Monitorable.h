@@ -16,6 +16,8 @@
 #ifndef G15TOP_MONITORABLE_H
 #define G15TOP_MONITORABLE_H
 
+#include <cstdint>
+
 namespace G15::Monitor {
 
 class Monitorable {
@@ -42,6 +44,8 @@ public:
     ~Monitorable() = default;
 
     virtual void refresh() = 0;
+
+    [[nodiscard]] virtual uint64_t getValue() const = 0;
 };
 
 }

@@ -13,7 +13,6 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>
  */
 
-#include <cstdint>
 #include <csignal>
 #include <iostream>
 #include <unistd.h>
@@ -21,6 +20,9 @@
 #include "draw/Screen.h"
 #include "draw/Text.h"
 #include "draw/Bar.h"
+#include "draw/DateTimeFormatter.h"
+#include "draw/PercentageFormatter.h"
+#include "draw/ValueFormatter.h"
 
 bool isRunning = true;
 
@@ -37,17 +39,21 @@ int32_t main(int32_t argc, char *argv[]) {
     G15::Monitor::Monitor monitor;
     G15::Draw::Screen screen(argv[1]);
 
-    screen.registerDrawable(std::make_unique<G15::Draw::Text>(screen, monitor.getClock(), 118, 2, G15::Draw::Screen::MEDIUM));
+    auto clock = std::make_unique<G15::Draw::DateTimeFormatter>(monitor.getClock(), "%X");
+    auto memoryPercentage = std::make_unique<G15::Draw::PercentageFormatter>(monitor.getMemory());
+    auto cpuFrequency = std::make_unique<G15::Draw::ValueFormatter>(monitor.getCpuFrequency(), 4);
+
+    screen.registerDrawable(std::make_unique<G15::Draw::Text>(screen, std::move(clock), 118, 2, G15::Draw::Screen::MEDIUM));
 
     screen.registerDrawable(std::make_unique<G15::Draw::Bar>(screen, monitor.getMemory(), 118, 13, 2, 39, G15::Draw::Screen::HORIZONTAL));
     screen.registerDrawable(std::make_unique<G15::Draw::Bar>(screen, monitor.getSwap(), 118, 14, 2, 39, G15::Draw::Screen::HORIZONTAL));
-    screen.registerDrawable(std::make_unique<G15::Draw::Text>(screen, monitor.getMemory(), 98, 11, G15::Draw::Screen::MEDIUM));
+    screen.registerDrawable(std::make_unique<G15::Draw::Text>(screen, std::move(memoryPercentage), 98, 11, G15::Draw::Screen::MEDIUM));
 
-    screen.registerDrawable(std::make_unique<G15::Draw::Text>(screen, monitor.getCpuFrequency(), 25, 2, G15::Draw::Screen::MEDIUM));
+    screen.registerDrawable(std::make_unique<G15::Draw::Text>(screen, std::move(cpuFrequency), 25, 2, G15::Draw::Screen::MEDIUM));
 
     uint8_t cpuOffset = 0;
     for (uint64_t i = 0; i < monitor.getCpuCoreCount(); i++) {
-        screen.registerDrawable(std::make_unique<G15::Draw::Bar>(screen, monitor.getCpuCoreUsage(i), 3, 12 + cpuOffset, 2, 48, G15::Draw::Screen::HORIZONTAL));
+        screen.registerDrawable(std::make_unique<G15::Draw::Bar>(screen, monitor.getCpuCoreUsage(i), 3, 12 + cpuOffset, 2, 45, G15::Draw::Screen::HORIZONTAL));
         cpuOffset += i % 2 == 0 ? 1 : 7;
     }
 

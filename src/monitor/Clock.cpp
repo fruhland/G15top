@@ -13,22 +13,17 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>
  */
 
+#include <ctime>
 #include "Clock.h"
 
 namespace G15::Monitor {
 
-Clock::Clock(const char *format) :
-        format(format) {}
-
 void Clock::refresh() {
-    auto rawTime = time(nullptr);
-    auto *time = localtime(&rawTime);
-
-    strftime(buffer, sizeof(buffer), format.c_str(), time);
+    rawTime = time(nullptr);
 }
 
-std::string Clock::getText() const {
-    return buffer;
+uint64_t Clock::getValue() const {
+    return rawTime;
 }
 
 }

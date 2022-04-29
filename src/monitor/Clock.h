@@ -16,17 +16,17 @@
 #ifndef G15TOP_CLOCK_H
 #define G15TOP_CLOCK_H
 
-#include "TextMonitorable.h"
+#include "Monitorable.h"
 
 namespace G15::Monitor {
 
-class Clock : public TextMonitorable {
+class Clock : public Monitorable {
 
 public:
     /**
      * Constructor.
      */
-    explicit Clock(const char *format);
+    explicit Clock() = default;
 
     /**
      * Copy constructor.
@@ -45,12 +45,11 @@ public:
 
     void refresh() override;
 
-    [[nodiscard]] std::string getText() const override;
+    [[nodiscard]] uint64_t getValue() const override;
 
 private:
 
-    char buffer[128]{};
-    std::string format;
+    uint64_t rawTime{};
 };
 
 }

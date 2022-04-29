@@ -16,13 +16,12 @@
 #ifndef G15TOP_SWAP_H
 #define G15TOP_SWAP_H
 
-#include <cstdint>
 #include <glibtop/swap.h>
-#include "ValueMonitorable.h"
+#include "PercentageMonitorable.h"
 
 namespace G15::Monitor {
 
-class Swap : public ValueMonitorable {
+class Swap : public PercentageMonitorable {
 
 public:
     /**
@@ -47,9 +46,9 @@ public:
 
     void refresh() override;
 
-    [[nodiscard]] uint64_t getTotal() const override;
-
     [[nodiscard]] uint64_t getValue() const override;
+
+    [[nodiscard]] uint64_t getTotal() const override;
 
 private:
 

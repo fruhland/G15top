@@ -16,7 +16,7 @@
 #ifndef G15TOP_BAR_H
 #define G15TOP_BAR_H
 
-#include "../monitor/ValueMonitorable.h"
+#include "../monitor/PercentageMonitorable.h"
 #include "Screen.h"
 #include "Drawable.h"
 
@@ -28,7 +28,7 @@ public:
     /**
      * Constructor.
      */
-    Bar(Screen &screen, Monitor::ValueMonitorable &monitorable, uint8_t x, uint8_t y, uint8_t width, uint8_t length, Screen::Orientation orientation);
+    Bar(Screen &screen, Monitor::PercentageMonitorable &monitorable, uint8_t x, uint8_t y, uint8_t width, uint8_t length, Screen::Orientation orientation);
 
     /**
      * Copy constructor.
@@ -56,7 +56,7 @@ protected:
 
     uint8_t width, length;
     Screen::Orientation orientation;
-    Monitor::ValueMonitorable &monitorable;
+    Monitor::PercentageMonitorable &monitorable;
 };
 
 }

@@ -18,8 +18,7 @@
 
 namespace G15::Monitor {
 
-Monitor::Monitor() :
-        clock("%X"), cpuFrequency(CpuFrequency::AVERAGE) {
+Monitor::Monitor() : cpuFrequency(CpuFrequency::AVERAGE) {
     glibtop_init();
 
     cpuCoreCount = glibtop_get_sysinfo()->ncpu;

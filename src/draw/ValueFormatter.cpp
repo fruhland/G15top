@@ -13,47 +13,23 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>
  */
 
-#ifndef G15TOP_TEXT_H
-#define G15TOP_TEXT_H
-
-#include "../monitor/Monitorable.h"
-#include "Screen.h"
-#include "Drawable.h"
-#include "Formatter.h"
+#include <string>
+#include "ValueFormatter.h"
 
 namespace G15::Draw {
 
-class Text : public Drawable {
+ValueFormatter::ValueFormatter(const Monitor::Monitorable &monitorable, uint32_t padding) :
+        Formatter(monitorable),
+        padding(padding) {}
 
-public:
-    /**
-     * Constructor.
-     */
-    Text(Screen &screen, std::unique_ptr<Formatter> formatter, uint8_t x, uint8_t y, Screen::FontSize size);
+std::string ValueFormatter::getText() const {
+    auto frequencyString = std::to_string(static_cast<uint32_t>(monitorable.getValue()));
+    auto spaceString = std::string("");
+    for (int32_t i = 0; i < padding - frequencyString.length(); i++) {
+        spaceString += " ";
+    }
 
-    /**
-     * Copy constructor.
-     */
-    Text(const Text &other) = delete;
-
-    /**
-     * Assignment operator.
-     */
-    Text &operator=(const Text &other) = delete;
-
-    /**
-     * Destructor.
-     */
-    ~Text() override = default;
-
-    void draw() override;
-
-protected:
-
-    Screen::FontSize size;
-    const std::unique_ptr<Formatter> formatter;
-};
-
+    return spaceString + frequencyString;
 }
 
-#endif
+}

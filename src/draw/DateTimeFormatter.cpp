@@ -13,47 +13,20 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>
  */
 
-#ifndef G15TOP_TEXT_H
-#define G15TOP_TEXT_H
-
-#include "../monitor/Monitorable.h"
-#include "Screen.h"
-#include "Drawable.h"
-#include "Formatter.h"
+#include "DateTimeFormatter.h"
 
 namespace G15::Draw {
 
-class Text : public Drawable {
+DateTimeFormatter::DateTimeFormatter(const Monitor::Monitorable &monitorable, std::string format) :
+        Formatter(monitorable),
+        timeFormat(std::move(format)){}
 
-public:
-    /**
-     * Constructor.
-     */
-    Text(Screen &screen, std::unique_ptr<Formatter> formatter, uint8_t x, uint8_t y, Screen::FontSize size);
+std::string DateTimeFormatter::getText() const {
+    auto rawTime = static_cast<time_t>(monitorable.getValue());
+    auto *time = localtime(&rawTime);
+    strftime((char*) buffer, sizeof(buffer), timeFormat.c_str(), time);
 
-    /**
-     * Copy constructor.
-     */
-    Text(const Text &other) = delete;
-
-    /**
-     * Assignment operator.
-     */
-    Text &operator=(const Text &other) = delete;
-
-    /**
-     * Destructor.
-     */
-    ~Text() override = default;
-
-    void draw() override;
-
-protected:
-
-    Screen::FontSize size;
-    const std::unique_ptr<Formatter> formatter;
-};
-
+    return buffer;
 }
 
-#endif
+}

@@ -21,12 +21,12 @@ void Memory::refresh() {
     glibtop_get_mem(&memoryInfo);
 }
 
-uint64_t Memory::getTotal() const {
-    return memoryInfo.total;
-}
-
 uint64_t Memory::getValue() const {
     return memoryInfo.user;
+}
+
+uint64_t Memory::getTotal() const {
+    return memoryInfo.total;
 }
 
 }

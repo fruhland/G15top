@@ -17,11 +17,11 @@
 #define G15TOP_CPUUSAGE_H
 
 #include <glibtop/cpu.h>
-#include "ValueMonitorable.h"
+#include "PercentageMonitorable.h"
 
 namespace G15::Monitor {
 
-class CpuUsage : public ValueMonitorable {
+class CpuUsage : public PercentageMonitorable {
 
 public:
     /**

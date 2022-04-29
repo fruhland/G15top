@@ -13,43 +13,17 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>
  */
 
-#ifndef G15TOP_TEXTMONITORABLE_H
-#define G15TOP_TEXTMONITORABLE_H
+#include "PercentageFormatter.h"
 
-#include <cstdint>
-#include <string>
-#include "Monitorable.h"
+namespace G15::Draw {
 
-namespace G15::Monitor {
+PercentageFormatter::PercentageFormatter(const Monitor::PercentageMonitorable &monitorable) :
+        Formatter(monitorable) {}
 
-class TextMonitorable : public Monitorable {
-
-public:
-    /**
-     * Constructor.
-     */
-    TextMonitorable() = default;
-
-    /**
-     * Copy constructor.
-     */
-    TextMonitorable(const TextMonitorable &other) = delete;
-
-    /**
-     * Assignment operator.
-     */
-    TextMonitorable &operator=(const TextMonitorable &other) = delete;
-
-    /**
-     * Destructor.
-     */
-    ~TextMonitorable() = default;
-
-    void refresh() override = 0;
-
-    [[nodiscard]] virtual std::string getText() const = 0;
-};
-
+std::string PercentageFormatter::getText() const {
+    auto value = reinterpret_cast<const Monitor::PercentageMonitorable&>(monitorable).getPercentage() * 100;
+    auto string = std::to_string(static_cast<uint32_t>(value >= 100 ? 99 : value));
+    return string.length() < 2 ? " " + string : string;
 }
 
-#endif
+}
