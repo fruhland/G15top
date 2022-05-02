@@ -20,6 +20,7 @@ namespace G15::Monitor {
 
 Monitor::Monitor() :
         download("enp3s0"),
+        upload("enp3s0"),
         cpuFrequency(CpuFrequency::AVERAGE) {
     glibtop_init();
 
@@ -40,6 +41,7 @@ void Monitor::refresh() {
     memory.refresh();
     swap.refresh();
     download.refresh();
+    upload.refresh();
     cpuUsage.refresh();
     cpuFrequency.refresh();
     for (uint64_t i = 0; i < cpuCoreCount; i++) {
@@ -60,8 +62,12 @@ Swap& Monitor::getSwap() const {
     return const_cast<Swap&>(swap);
 }
 
-NetworkDownload &Monitor::getDownload() const {
+NetworkDownload& Monitor::getDownload() const {
     return const_cast<NetworkDownload&>(download);
+}
+
+NetworkUpload& Monitor::getUpload() const {
+    return const_cast<NetworkUpload&>(upload);
 }
 
 CpuUsage& Monitor::getCpuUsage() const {

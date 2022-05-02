@@ -44,6 +44,7 @@ int32_t main(int32_t argc, char *argv[]) {
     auto memoryPercentage = std::make_unique<G15::Draw::PercentageFormatter>(monitor.getMemory());
     auto cpuFrequency = std::make_unique<G15::Draw::ValueFormatter>(monitor.getCpuFrequency(), 4);
     auto download = std::make_unique<G15::Draw::ByteFormatter>(monitor.getDownload(), 7);
+    auto upload = std::make_unique<G15::Draw::ByteFormatter>(monitor.getUpload(), 7);
 
     screen.registerDrawable(std::make_unique<G15::Draw::Text>(screen, std::move(clock), 118, 2, G15::Draw::Screen::MEDIUM));
 
@@ -52,6 +53,7 @@ int32_t main(int32_t argc, char *argv[]) {
     screen.registerDrawable(std::make_unique<G15::Draw::Text>(screen, std::move(memoryPercentage), 98, 11, G15::Draw::Screen::MEDIUM));
 
     screen.registerDrawable(std::make_unique<G15::Draw::Text>(screen, std::move(download), 117, 34, G15::Draw::Screen::MEDIUM));
+    screen.registerDrawable(std::make_unique<G15::Draw::Text>(screen, std::move(upload), 117, 25, G15::Draw::Screen::MEDIUM));
 
     screen.registerDrawable(std::make_unique<G15::Draw::Text>(screen, std::move(cpuFrequency), 25, 2, G15::Draw::Screen::MEDIUM));
 

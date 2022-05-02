@@ -24,6 +24,7 @@
 #include "CpuUsage.h"
 #include "CpuFrequency.h"
 #include "NetworkDownload.h"
+#include "NetworkUpload.h"
 
 namespace G15::Monitor {
 
@@ -60,13 +61,15 @@ public:
 
     [[nodiscard]] NetworkDownload& getDownload() const;
 
+    [[nodiscard]] NetworkUpload& getUpload() const;
+
     [[nodiscard]] CpuUsage& getCpuUsage() const;
 
     [[nodiscard]] CpuUsage& getCpuCoreUsage(uint64_t core) const;
 
-    [[nodiscard]] CpuFrequency & getCpuFrequency() const;
+    [[nodiscard]] CpuFrequency& getCpuFrequency() const;
 
-    [[nodiscard]] CpuFrequency & getCpuCoreFrequency(uint64_t core) const;
+    [[nodiscard]] CpuFrequency& getCpuCoreFrequency(uint64_t core) const;
 
     [[nodiscard]] uint64_t getCpuCoreCount() const;
 
@@ -77,6 +80,7 @@ private:
     Memory memory;
     Swap swap;
     NetworkDownload download;
+    NetworkUpload upload;
     CpuUsage cpuUsage;
     CpuFrequency cpuFrequency;
     std::vector<CpuUsage> cpuCoreUsage;
