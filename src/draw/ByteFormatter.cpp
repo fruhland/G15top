@@ -18,7 +18,7 @@
 namespace G15::Draw {
 
 const char *ByteFormatter::lowMetricTable[] = {
-        "",
+        " ",
         "m",
         "u",
         "n",
@@ -28,7 +28,7 @@ const char *ByteFormatter::lowMetricTable[] = {
 };
 
 const char *ByteFormatter::highMetricTable[] = {
-        "",
+        " ",
         "K",
         "M",
         "G",
