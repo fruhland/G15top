@@ -58,8 +58,14 @@ int32_t main(int32_t argc, char *argv[]) {
     screen.registerDrawable(std::make_unique<G15::Draw::Text>(screen, std::move(cpuFrequency), 25, 2, G15::Draw::Screen::MEDIUM));
 
     uint8_t cpuOffset = 0;
-    for (uint64_t i = 0; i < monitor.getCpuCoreCount(); i++) {
-        screen.registerDrawable(std::make_unique<G15::Draw::Bar>(screen, monitor.getCpuCoreUsage(i), 3, 12 + cpuOffset, 2, 45, G15::Draw::Screen::HORIZONTAL));
+    for (uint64_t i = 0; i < monitor.getCpuCoreCount() / 2; i++) {
+        screen.registerDrawable(std::make_unique<G15::Draw::Bar>(screen, monitor.getCpuCoreUsage(i), 3, 12 + cpuOffset, 2, 29, G15::Draw::Screen::HORIZONTAL));
+        cpuOffset += i % 2 == 0 ? 1 : 7;
+    }
+
+    cpuOffset = 0;
+    for (uint64_t i = monitor.getCpuCoreCount() / 2; i < monitor.getCpuCoreCount(); i++) {
+        screen.registerDrawable(std::make_unique<G15::Draw::Bar>(screen, monitor.getCpuCoreUsage(i), 37, 12 + cpuOffset, 2, 29, G15::Draw::Screen::HORIZONTAL));
         cpuOffset += i % 2 == 0 ? 1 : 7;
     }
 

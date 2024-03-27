@@ -19,8 +19,8 @@
 namespace G15::Monitor {
 
 Monitor::Monitor() :
-        download("enp3s0"),
-        upload("enp3s0"),
+        download("enp5s0u2u1u2"),
+        upload("enp5s0u2u1u2"),
         cpuFrequency(CpuFrequency::AVERAGE) {
     glibtop_init();
 
