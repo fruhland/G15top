@@ -23,6 +23,11 @@ PKG_CHECK_MODULES(LIBGTOP REQUIRED libgtop-2.0)
 
 # Set source files
 set(SOURCE_FILES
+        ${G15TOP_SRC_DIR}/monitor/AmdGpu.cpp
+        ${G15TOP_SRC_DIR}/monitor/AmdGpuCoreUsage.cpp
+        ${G15TOP_SRC_DIR}/monitor/AmdGpuCoreTemperature.cpp
+        ${G15TOP_SRC_DIR}/monitor/AmdGpuMediaUsage.cpp
+        ${G15TOP_SRC_DIR}/monitor/AmdGpuMemoryUsage.cpp
         ${G15TOP_SRC_DIR}/monitor/Clock.cpp
         ${G15TOP_SRC_DIR}/monitor/CpuFrequency.cpp
         ${G15TOP_SRC_DIR}/monitor/CpuUsage.cpp

@@ -21,7 +21,12 @@ namespace G15::Monitor {
 Monitor::Monitor() :
         download("enp5s0u2u1u2"),
         upload("enp5s0u2u1u2"),
-        cpuFrequency(CpuFrequency::AVERAGE) {
+        cpuFrequency(CpuFrequency::AVERAGE),
+        amdGpu(AmdGpu::searchPciIds()[0].c_str()),
+        amdGpuCoreUsage(amdGpu),
+        amdGpuMediaUsage(amdGpu),
+        amdGpuCoreTemperature(amdGpu),
+        amdGpuMemoryUsage(AmdGpu::searchPciIds()[0].c_str()) {
     glibtop_init();
 
     cpuCoreCount = glibtop_get_sysinfo()->ncpu;
@@ -48,46 +53,64 @@ void Monitor::refresh() {
         cpuCoreUsage[i].refresh();
         cpuCoreFrequency[i].refresh();
     }
+    amdGpu.refresh();
+    amdGpuMemoryUsage.refresh();
 }
 
-Clock& Monitor::getClock() const {
+const Clock& Monitor::getClock() const {
     return const_cast<Clock&>(clock);
 }
 
-Memory& Monitor::getMemory() const {
+const Memory& Monitor::getMemory() const {
     return const_cast<Memory&>(memory);
 }
 
-Swap& Monitor::getSwap() const {
+const Swap& Monitor::getSwap() const {
     return const_cast<Swap&>(swap);
 }
 
-NetworkDownload& Monitor::getDownload() const {
+const NetworkDownload& Monitor::getDownload() const {
     return const_cast<NetworkDownload&>(download);
 }
 
-NetworkUpload& Monitor::getUpload() const {
+const NetworkUpload& Monitor::getUpload() const {
     return const_cast<NetworkUpload&>(upload);
 }
 
-CpuUsage& Monitor::getCpuUsage() const {
+const CpuUsage& Monitor::getCpuUsage() const {
     return const_cast<CpuUsage&>(cpuUsage);
 }
 
-CpuUsage &Monitor::getCpuCoreUsage(uint64_t core) const {
+const CpuUsage &Monitor::getCpuCoreUsage(uint64_t core) const {
     return const_cast<CpuUsage&>(cpuCoreUsage[core]);
 }
 
-CpuFrequency& Monitor::getCpuFrequency() const {
+const CpuFrequency& Monitor::getCpuFrequency() const {
     return const_cast<CpuFrequency&>(cpuFrequency);
 }
 
-CpuFrequency& Monitor::getCpuCoreFrequency(uint64_t core) const {
+const CpuFrequency& Monitor::getCpuCoreFrequency(uint64_t core) const {
     return const_cast<CpuFrequency&>(cpuCoreFrequency[core]);
 }
 
 uint64_t Monitor::getCpuCoreCount() const {
     return cpuCoreUsage.size();
+}
+
+const AmdGpuCoreUsage& Monitor::getAmdGpuCoreUsage() const {
+    return amdGpuCoreUsage;
+}
+
+const AmdGpuMediaUsage& Monitor::getAmdGpuMediaUsage() const {
+    return amdGpuMediaUsage;
+}
+
+const AmdGpuCoreTemperature& Monitor::getAmdGpuCoreTemperature() const {
+    return amdGpuCoreTemperature;
+}
+
+const AmdGpuMemoryUsage& Monitor::getAmdGpuMemoryUsage() const {
+    return amdGpuMemoryUsage;
 }
 
 }

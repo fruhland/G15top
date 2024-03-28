@@ -13,50 +13,44 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>
  */
 
-#ifndef G15TOP_BAR_H
-#define G15TOP_BAR_H
+#ifndef G15TOP_AMDGPUCORETEMPERATURE_H
+#define G15TOP_AMDGPUCORETEMPERATURE_H
 
-#include "../monitor/PercentageMonitorable.h"
-#include "Screen.h"
-#include "Drawable.h"
+#include "Monitorable.h"
+#include "AmdGpu.h"
 
-namespace G15::Draw {
+namespace G15::Monitor {
 
-class Bar : public Drawable {
+class AmdGpuCoreTemperature : public Monitorable {
 
 public:
     /**
      * Constructor.
      */
-    Bar(Screen &screen, const Monitor::PercentageMonitorable &monitorable, uint8_t x, uint8_t y, uint8_t width, uint8_t length, Screen::Orientation orientation);
+    explicit AmdGpuCoreTemperature(AmdGpu &gpuStats);
 
     /**
      * Copy constructor.
      */
-    Bar(const Bar &other) = delete;
-
-    /**
-     * Move constructor.
-     */
-    Bar(const Bar &&other) noexcept;
+    AmdGpuCoreTemperature(const AmdGpuCoreTemperature &other) = delete;
 
     /**
      * Assignment operator.
      */
-    Bar &operator=(const Bar &other) = delete;
+    AmdGpuCoreTemperature &operator=(const AmdGpuCoreTemperature &other) = delete;
 
     /**
      * Destructor.
      */
-    ~Bar() override = default;
+    ~AmdGpuCoreTemperature() override = default;
 
-    void draw() override;
+    void refresh() override;
 
-protected:
+    [[nodiscard]] uint64_t getValue() const override;
 
-    uint8_t width, length;
-    Screen::Orientation orientation;
-    const Monitor::PercentageMonitorable &monitorable;
+private:
+
+    AmdGpu &gpuStats;
 };
 
 }

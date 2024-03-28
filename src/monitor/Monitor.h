@@ -25,6 +25,11 @@
 #include "CpuFrequency.h"
 #include "NetworkDownload.h"
 #include "NetworkUpload.h"
+#include "AmdGpu.h"
+#include "AmdGpuCoreUsage.h"
+#include "AmdGpuMediaUsage.h"
+#include "AmdGpuCoreTemperature.h"
+#include "AmdGpuMemoryUsage.h"
 
 namespace G15::Monitor {
 
@@ -53,25 +58,33 @@ public:
 
     void refresh();
 
-    [[nodiscard]] Clock &getClock() const;
+    [[nodiscard]] const Clock &getClock() const;
 
-    [[nodiscard]] Memory& getMemory() const;
+    [[nodiscard]] const Memory& getMemory() const;
 
-    [[nodiscard]] Swap& getSwap() const;
+    [[nodiscard]] const Swap& getSwap() const;
 
-    [[nodiscard]] NetworkDownload& getDownload() const;
+    [[nodiscard]] const NetworkDownload& getDownload() const;
 
-    [[nodiscard]] NetworkUpload& getUpload() const;
+    [[nodiscard]] const NetworkUpload& getUpload() const;
 
-    [[nodiscard]] CpuUsage& getCpuUsage() const;
+    [[nodiscard]] const CpuUsage& getCpuUsage() const;
 
-    [[nodiscard]] CpuUsage& getCpuCoreUsage(uint64_t core) const;
+    [[nodiscard]] const CpuUsage& getCpuCoreUsage(uint64_t core) const;
 
-    [[nodiscard]] CpuFrequency& getCpuFrequency() const;
+    [[nodiscard]] const CpuFrequency& getCpuFrequency() const;
 
-    [[nodiscard]] CpuFrequency& getCpuCoreFrequency(uint64_t core) const;
+    [[nodiscard]] const CpuFrequency& getCpuCoreFrequency(uint64_t core) const;
 
     [[nodiscard]] uint64_t getCpuCoreCount() const;
+
+    [[nodiscard]] const AmdGpuCoreUsage& getAmdGpuCoreUsage() const;
+
+    [[nodiscard]] const AmdGpuMediaUsage& getAmdGpuMediaUsage() const;
+
+    [[nodiscard]] const AmdGpuCoreTemperature& getAmdGpuCoreTemperature() const;
+
+    [[nodiscard]] const AmdGpuMemoryUsage& getAmdGpuMemoryUsage() const;
 
 private:
 
@@ -85,6 +98,11 @@ private:
     CpuFrequency cpuFrequency;
     std::vector<CpuUsage> cpuCoreUsage;
     std::vector<CpuFrequency> cpuCoreFrequency;
+    AmdGpu amdGpu;
+    AmdGpuCoreUsage amdGpuCoreUsage;
+    AmdGpuMediaUsage amdGpuMediaUsage;
+    AmdGpuCoreTemperature amdGpuCoreTemperature;
+    AmdGpuMemoryUsage amdGpuMemoryUsage;
 };
 
 }

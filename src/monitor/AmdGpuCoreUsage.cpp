@@ -13,26 +13,20 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>
  */
 
-#include <string>
-#include "ValueFormatter.h"
+#include "AmdGpuCoreUsage.h"
 
-namespace G15::Draw {
+namespace G15::Monitor {
 
-ValueFormatter::ValueFormatter(const Monitor::Monitorable &monitorable, uint32_t padding) :
-        Formatter(monitorable),
-        padding(padding) {}
+AmdGpuCoreUsage::AmdGpuCoreUsage(G15::Monitor::AmdGpu &gpuStats) : gpuStats(gpuStats) {}
 
-std::string ValueFormatter::getText() const {
-    auto valueString = std::to_string(static_cast<uint32_t>(monitorable.getValue()));
-    auto spaceString = std::string("");
+void AmdGpuCoreUsage::refresh() {}
 
-    if (padding > valueString.size()) {
-        for (int32_t i = 0; i < padding - valueString.length(); i++) {
-            spaceString += " ";
-        }
-    }
+uint64_t AmdGpuCoreUsage::getValue() const {
+    return gpuStats.getGraphicsUsage();
+}
 
-    return spaceString + valueString;
+uint64_t AmdGpuCoreUsage::getTotal() const {
+    return 10000;
 }
 
 }

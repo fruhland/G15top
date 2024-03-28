@@ -13,50 +13,49 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>
  */
 
-#ifndef G15TOP_BAR_H
-#define G15TOP_BAR_H
+#ifndef G15TOP_AMDGPUMEMORYUSAGE_H
+#define G15TOP_AMDGPUMEMORYUSAGE_H
 
-#include "../monitor/PercentageMonitorable.h"
-#include "Screen.h"
-#include "Drawable.h"
+#include <fstream>
+#include "PercentageMonitorable.h"
 
-namespace G15::Draw {
+namespace G15::Monitor {
 
-class Bar : public Drawable {
+class AmdGpuMemoryUsage : public PercentageMonitorable {
 
 public:
     /**
      * Constructor.
      */
-    Bar(Screen &screen, const Monitor::PercentageMonitorable &monitorable, uint8_t x, uint8_t y, uint8_t width, uint8_t length, Screen::Orientation orientation);
+    explicit AmdGpuMemoryUsage(const char *pciId);
 
     /**
      * Copy constructor.
      */
-    Bar(const Bar &other) = delete;
-
-    /**
-     * Move constructor.
-     */
-    Bar(const Bar &&other) noexcept;
+    AmdGpuMemoryUsage(const AmdGpuMemoryUsage &other) = delete;
 
     /**
      * Assignment operator.
      */
-    Bar &operator=(const Bar &other) = delete;
+    AmdGpuMemoryUsage &operator=(const AmdGpuMemoryUsage &other) = delete;
 
     /**
      * Destructor.
      */
-    ~Bar() override = default;
+    ~AmdGpuMemoryUsage() override = default;
 
-    void draw() override;
+    void refresh() override;
 
-protected:
+    [[nodiscard]] uint64_t getValue() const override;
 
-    uint8_t width, length;
-    Screen::Orientation orientation;
-    const Monitor::PercentageMonitorable &monitorable;
+    [[nodiscard]] uint64_t getTotal() const override;
+
+private:
+
+    std::ifstream usedMemoryFile;
+
+    uint64_t usedMemory = 0;
+    uint64_t totalMemory = 0;
 };
 
 }

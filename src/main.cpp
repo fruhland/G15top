@@ -24,6 +24,7 @@
 #include "draw/PercentageFormatter.h"
 #include "draw/ValueFormatter.h"
 #include "draw/ByteFormatter.h"
+#include "monitor/AmdGpu.h"
 
 bool isRunning = true;
 
@@ -45,6 +46,7 @@ int32_t main(int32_t argc, char *argv[]) {
     auto cpuFrequency = std::make_unique<G15::Draw::ValueFormatter>(monitor.getCpuFrequency(), 4);
     auto download = std::make_unique<G15::Draw::ByteFormatter>(monitor.getDownload(), 7);
     auto upload = std::make_unique<G15::Draw::ByteFormatter>(monitor.getUpload(), 7);
+    auto amdGpuCoreTemperature = std::make_unique<G15::Draw::ValueFormatter>(monitor.getAmdGpuCoreTemperature(), 2);
 
     screen.registerDrawable(std::make_unique<G15::Draw::Text>(screen, std::move(clock), 118, 2, G15::Draw::Screen::MEDIUM));
 
@@ -55,7 +57,7 @@ int32_t main(int32_t argc, char *argv[]) {
     screen.registerDrawable(std::make_unique<G15::Draw::Text>(screen, std::move(download), 117, 34, G15::Draw::Screen::MEDIUM));
     screen.registerDrawable(std::make_unique<G15::Draw::Text>(screen, std::move(upload), 117, 25, G15::Draw::Screen::MEDIUM));
 
-    screen.registerDrawable(std::make_unique<G15::Draw::Text>(screen, std::move(cpuFrequency), 25, 2, G15::Draw::Screen::MEDIUM));
+    screen.registerDrawable(std::make_unique<G15::Draw::Text>(screen, std::move(cpuFrequency), 24, 2, G15::Draw::Screen::MEDIUM));
 
     uint8_t cpuOffset = 0;
     for (uint64_t i = 0; i < monitor.getCpuCoreCount() / 2; i++) {
@@ -68,6 +70,12 @@ int32_t main(int32_t argc, char *argv[]) {
         screen.registerDrawable(std::make_unique<G15::Draw::Bar>(screen, monitor.getCpuCoreUsage(i), 37, 12 + cpuOffset, 2, 29, G15::Draw::Screen::HORIZONTAL));
         cpuOffset += i % 2 == 0 ? 1 : 7;
     }
+
+    screen.registerDrawable(std::make_unique<G15::Draw::Bar>(screen, monitor.getAmdGpuCoreUsage(), 73, 34, 3, 12, G15::Draw::Screen::VERTICAL));
+    screen.registerDrawable(std::make_unique<G15::Draw::Bar>(screen, monitor.getAmdGpuMediaUsage(), 80, 34, 3, 12, G15::Draw::Screen::VERTICAL));
+    screen.registerDrawable(std::make_unique<G15::Draw::Bar>(screen, monitor.getAmdGpuMemoryUsage(), 87, 34, 3, 12, G15::Draw::Screen::VERTICAL));
+
+    screen.registerDrawable(std::make_unique<G15::Draw::Text>(screen, std::move(amdGpuCoreTemperature), 73, 11, G15::Draw::Screen::MEDIUM));
 
     screen.clear();
     screen.drawBanner();
