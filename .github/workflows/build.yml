@@ -14,18 +14,11 @@
 on: [push]
 jobs:
   build:
-    runs-on: ubuntu-18.04
+    runs-on: ubuntu-20.04
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
       - name: Install dependencies
         run: sudo apt install -y libg15render-dev libg15daemon-client-dev libgtop2-dev
       - name: Build
-        uses: ashutoshvarma/action-cmake-build@master
-        with:
-          build-dir: ${{ runner.workspace }}/build
-          cc: gcc
-          cxx: g++
-          build-type: Release
-          run-test: false
-          install-build: false
+        run: cmake -Bbuild && cmake --build build
